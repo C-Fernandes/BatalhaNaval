@@ -3,7 +3,6 @@ package Model;
 public abstract class Embarcacao {
 
     private int tamanho, tipo;
-    private Quadrante[] quadrantesOcupados;
 
     /*
      * 2 - Coverta
