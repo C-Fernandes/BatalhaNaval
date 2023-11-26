@@ -23,6 +23,7 @@ public class App extends Application {
             stage.setResizable(false);
             stage.show();
         } catch (Exception e) {
+            System.out.println("Problema aqui");
             System.out.println(e);
         }
     }
