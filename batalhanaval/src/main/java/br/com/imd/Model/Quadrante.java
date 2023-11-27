@@ -2,17 +2,15 @@ package br.com.imd.Model;
 
 public class Quadrante {
 
-    //Coordenadas do quadrante
-    private int x,y;
-    private boolean atacado;
-
+    // Coordenadas do quadrante
+    private int x, y;
+    private boolean preenchido = false, atacado = false;
 
     public Quadrante(int x, int y) {
         this.x = x;
         this.y = y;
         this.atacado = false;
     }
-
 
     public int getX() {
         return this.x;
