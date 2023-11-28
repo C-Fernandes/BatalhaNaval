@@ -11,4 +11,23 @@ public class JogadorController {
         this.jogador2 = jogador2;
     }
 
+    public JogadorController() {
+    }
+
+    public Jogador getJogador1() {
+        return this.jogador1;
+    }
+
+    public void setJogador1(Jogador jogador1) {
+        this.jogador1 = jogador1;
+    }
+
+    public Jogador getJogador2() {
+        return this.jogador2;
+    }
+
+    public void setJogador2(Jogador jogador2) {
+        this.jogador2 = jogador2;
+    }
+
 }

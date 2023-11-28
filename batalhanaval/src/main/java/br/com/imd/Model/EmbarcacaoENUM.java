@@ -1,6 +1,6 @@
 package br.com.imd.Model;
 
-enum EmbarcacaoENUM {
+public enum EmbarcacaoENUM {
     DESTROYER("Destroyer"),
     CORVETA("Corveta"),
     SUBMARINO("Submarino"),
