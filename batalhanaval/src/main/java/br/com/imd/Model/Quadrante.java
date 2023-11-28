@@ -4,12 +4,23 @@ public class Quadrante {
 
     // Coordenadas do quadrante
     private int x, y;
-    private boolean preenchidoPorNavio = false, atacado = false;
+    private boolean atacado = false, preenchidoPorNavio = false;
+
+    public Quadrante() {
+    }
 
     public Quadrante(int x, int y) {
         this.x = x;
         this.y = y;
         this.atacado = false;
+        this.preenchidoPorNavio = false;
+    }
+
+    public Quadrante(int x, int y, boolean atacado, boolean preenchidoPorNavio) {
+        this.x = x;
+        this.y = y;
+        this.atacado = atacado;
+        this.preenchidoPorNavio = preenchidoPorNavio;
     }
 
     public int getX() {

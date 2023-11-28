@@ -7,17 +7,23 @@
 <?import javafx.scene.text.Text?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.imd.MenuInicialController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+   prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.imd.Controller.MenuInicialController">
    <children>
       <TextField fx:id="jogador1" layoutX="85.0" layoutY="329.0" prefHeight="52.0" prefWidth="302.0" />
-      <TextField fx:id="jogador2" layoutX="541.0" layoutY="339.0" prefHeight="52.0" prefWidth="302.0" />
-      <Button layoutX="391.0" layoutY="451.0" mnemonicParsing="false" onAction="#cadastrarUsuarios" prefHeight="58.0" prefWidth="195.0" text="Cadastrar Usuarios" />
-      <Text layoutX="119.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 1" wrappingWidth="215.6796875">
+      <TextField fx:id="jogador2" layoutX="541.0" layoutY="339.0" prefHeight="52.0"
+         prefWidth="302.0" />
+      <Button layoutX="391.0" layoutY="451.0" mnemonicParsing="false" onAction="#cadastrarUsuarios"
+         prefHeight="58.0" prefWidth="195.0" text="Cadastrar Usuarios" />
+      <Text layoutX="119.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 1"
+         wrappingWidth="215.6796875">
          <font>
             <Font size="49.0" />
          </font>
       </Text>
-      <Text layoutX="591.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 2" wrappingWidth="215.6796875">
+      <Text layoutX="591.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 2"
+         wrappingWidth="215.6796875">
          <font>
             <Font size="49.0" />
          </font>

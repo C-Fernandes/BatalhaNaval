@@ -1,4 +1,4 @@
-package br.com.imd;
+package br.com.imd.Controller;
 
 import java.io.IOException;
 
@@ -18,21 +18,14 @@ public class TabuleiroController {
 
     private boolean moverDestroyer = false;
     String jogadorDaVez;
-    @FXML
-    Button destroyer;
-    @FXML
-    Button corveta;
-    @FXML
-    Button submarino;
-    @FXML
-    Button fragata;
-    @FXML
-    GridPane tabuleiroDoJogador;
-    @FXML
-    GridPane tabuleiroAtacado;
 
     public TabuleiroController() {
         this.quadrantes = new Quadrante[10][10];
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                quadrantes[i][j] = new Quadrante(i, j);
+            }
+        }
     }
 
     public Quadrante[][] getQuadrantes() {
@@ -79,11 +72,8 @@ public class TabuleiroController {
 
     }
 
-    @FXML
-    void atacar(ActionEvent event) {
-        TabuleiroController t = new TabuleiroController();
+    void atacarAdversario(Node source, GridPane tabuleiroAtacado) {
         try {
-            Node source = (Node) event.getSource();
             int linha = 0, coluna = 0;
 
             if (tabuleiroAtacado.getRowIndex(source) != null)
@@ -91,72 +81,33 @@ public class TabuleiroController {
             if (tabuleiroAtacado.getColumnIndex(source) != null)
                 coluna = tabuleiroAtacado.getColumnIndex(source);
             System.out.println(coluna + " - " + linha);
-            Quadrante qAlvo = t.quadrantes[linha][coluna];
+            Quadrante qAlvo = new Quadrante(linha, coluna, quadrantes[linha][coluna].getAtacado(),
+                    quadrantes[linha][coluna].getPreenchidoPorNavio());
+
             if (!qAlvo.isAtacado()) {
-                Button botao = (Button) tabuleiroAtacado.getChildren();
-                botao.setStyle("-fx-background-color: red");
-                tabuleiroAtacado.add(botao, linha, coluna);
-                t.quadrantes[linha][coluna].setAtacado(true);
+                System.out.println("Entrou no não atacado");
+                Button botao = new Button();
+                try {
+                    botao = (Button) tabuleiroAtacado.getChildren();
+                } catch (Exception e) {
+                    System.out.println("É aqui");
+                    System.out.println(e);
+                }
+
+                botao.setStyle("-fx-background-color: Red");
+                botao.setPrefSize(42, 42);
+                tabuleiroAtacado.add(botao, coluna, linha);
+
+                quadrantes[linha][coluna].setAtacado(true);
+
                 if (qAlvo.isPreenchidoPorNavio()) {
 
                 }
             }
+            System.out.println("Já foi atacado");
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    @FXML
-    void clicado(ActionEvent e) throws IOException {
-
-        if (moverDestroyer)
-            moverDestroyer(e);
-
-    }
-
-    void rotacionarDestroyer() {
-
-        System.out.println("rotacionar");
-
-        if (destroyer.getRotate() == 0)
-            destroyer.setRotate(90);
-
-        else
-            destroyer.setRotate(0);
-    }
-
-    @FXML
-    void moverDestroyer(ActionEvent event) throws IOException {
-        destroyer.setOnMouseClicked(ee -> {
-            if (ee.getButton() == MouseButton.SECONDARY)
-                rotacionarDestroyer();
-        });
-        destroyer.getOnMouseClicked();
-
-        if (moverDestroyer == false) {
-            moverDestroyer = true;
-
-        } else {
-
-            int linha = 0, coluna = 0;
-            Node source = (Node) event.getSource();
-            if (tabuleiroDoJogador.getRowIndex(source) != null) {
-                linha = tabuleiroDoJogador.getRowIndex(source);
-                System.out.println("Linha: " + tabuleiroDoJogador.getRowIndex(destroyer));
-                System.out.println("coluna: " + tabuleiroDoJogador.getColumnIndex(destroyer));
-
-            }
-            if (tabuleiroDoJogador.getColumnIndex(source) != null) {
-                coluna = tabuleiroDoJogador.getColumnIndex(source);
-                System.out.println("Linha: " + tabuleiroDoJogador.getRowIndex(destroyer));
-                System.out.println("coluna: " + tabuleiroDoJogador.getColumnIndex(destroyer));
-            }
-            System.out.println(linha + " - " + coluna);
-            tabuleiroDoJogador.setColumnIndex(destroyer, coluna);
-            tabuleiroAtacado.setRowIndex(destroyer, linha); //
-            moverDestroyer = false;
-
-        }
-
-    }
 }

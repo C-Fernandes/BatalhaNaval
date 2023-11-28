@@ -17,6 +17,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+
         try {
             String caminho = "View/menu-inicial";
             scene = new Scene(loadFXML(caminho), 1000, 650);
