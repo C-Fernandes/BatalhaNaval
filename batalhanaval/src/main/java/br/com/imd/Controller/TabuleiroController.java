@@ -59,15 +59,13 @@ public class TabuleiroController {
         while (true) {
 
             Random numAleatorio = new Random();
-            System.out.println(embarcacao.getTamanho());
+            System.out.println("Tamanho navio: " + embarcacao.getTamanho());
             int xAleatorio = numAleatorio.nextInt(10), yAleatorio = numAleatorio.nextInt(10);
-            System.out.println(xAleatorio + " - " + yAleatorio);
-            System.out.println((9 - embarcacao.getTamanho()) + 1);
+            System.out.println("x - y: " + xAleatorio + " - " + yAleatorio);
             if (xAleatorio >= 0 && xAleatorio <= 9 && yAleatorio <= (9 - embarcacao.getTamanho()) + 1
                     && (!quadrantes[xAleatorio][xAleatorio].getPreenchidoPorNavio())) {
                 System.out.println("Entrou no if");
                 Quadrante posicaoEmbarcacao[] = new Quadrante[embarcacao.getTamanho()];
-                System.out.println(yAleatorio + (embarcacao.getTamanho() - 1));
                 for (int i = yAleatorio; i < yAleatorio + (embarcacao.getTamanho() - 1); i++) {
                     this.quadrantes[xAleatorio][i].setPreenchidoPorNavio(true);
                     posicaoEmbarcacao[contador] = quadrantes[xAleatorio][i];

@@ -23,6 +23,7 @@ public class App extends Application {
 
         try {
             this.menuController = MenuController.getInstancia();
+
             scene = new Scene(loadFXML("View/menu-inicial"), 1000, 650);
 
             stage.setScene(scene);
