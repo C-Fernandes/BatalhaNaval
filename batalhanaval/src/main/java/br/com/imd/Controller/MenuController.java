@@ -386,16 +386,8 @@ public class MenuController implements Initializable {
             if (jogadores.getJogador2().getEmbarcacoes().length == 0)
                 vencedor = jogadores.getJogador2();
 
-            System.out.println("Jogador 1: " + jogadores.getJogador1().getEmbarcacoes().length);
+            App.setRoot("View/telaEncerramento");
 
-            System.out.println("Jogador 2: " + jogadores.getJogador2().getEmbarcacoes().length);
-            System.out.println("Chegou aqui");
-            try {
-                System.out.println("Entrou no try");
-                App.setRoot("View/telaEncerramento");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         } else {
             int linha = 0, coluna = 0;
             boolean mudarTela = false;
@@ -461,6 +453,11 @@ public class MenuController implements Initializable {
         }
     }
 
+
+
+
+
+    void moverEmbarcacao()
     @FXML
     void moverDestroyer(ActionEvent event) throws IOException {
 
@@ -474,7 +471,6 @@ public class MenuController implements Initializable {
             System.out.println("Mover Destroyer antess: " + moverDestroyer);
             if (moverDestroyer == false) {
                 moverDestroyer = true;
-                System.out.println("Mover Destroyer no if: " + moverDestroyer);
             } else {
                 moverDestroyer = false;
                 boolean podeMover = true;
@@ -506,7 +502,7 @@ public class MenuController implements Initializable {
                 }
 
             }
-            System.out.println("Mover Destroyer depois: " + moverDestroyer);
+          
 
         } catch (Exception e) {
             System.out.println(e);
