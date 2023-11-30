@@ -23,9 +23,7 @@ public class App extends Application {
 
         try {
             this.menuController = MenuController.getInstancia();
-
             scene = new Scene(loadFXML("View/menu-inicial"), 1000, 650);
-
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
@@ -36,7 +34,6 @@ public class App extends Application {
     }
 
     public static void setRoot(String fxml) throws IOException {
-
         scene.setRoot(loadFXML(fxml));
     }
 

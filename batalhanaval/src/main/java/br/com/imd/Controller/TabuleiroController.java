@@ -32,15 +32,12 @@ public class TabuleiroController {
         return this.quadrantes;
     }
 
-    public void setQuadrantes(Quadrante[][] quadrantes) {
-        this.quadrantes = quadrantes;
+    public void setQuadrantes(Quadrante quadrante) {
+        this.quadrantes[quadrante.getX()][quadrante.getY()] = quadrante;
     }
 
-    public void iniciarTabuleiro() {
-        for (int i = 0; i < 10; i++)
-            for (int j = 0; j < 10; j++)
-                quadrantes[i][j] = new Quadrante(i, j);
-
+    public void setQuadrantes(Quadrante[][] quadrantes) {
+        this.quadrantes = quadrantes;
     }
 
     public void verificarSeVenceu(Jogador a) {
@@ -59,22 +56,30 @@ public class TabuleiroController {
         while (true) {
 
             Random numAleatorio = new Random();
-            System.out.println("Tamanho navio: " + embarcacao.getTamanho());
             int xAleatorio = numAleatorio.nextInt(10), yAleatorio = numAleatorio.nextInt(10);
-            System.out.println("x - y: " + xAleatorio + " - " + yAleatorio);
-            if (xAleatorio >= 0 && xAleatorio <= 9 && yAleatorio <= (9 - embarcacao.getTamanho()) + 1
-                    && (!quadrantes[xAleatorio][xAleatorio].getPreenchidoPorNavio())) {
-                System.out.println("Entrou no if");
-                Quadrante posicaoEmbarcacao[] = new Quadrante[embarcacao.getTamanho()];
-                for (int i = yAleatorio; i < yAleatorio + (embarcacao.getTamanho() - 1); i++) {
-                    this.quadrantes[xAleatorio][i].setPreenchidoPorNavio(true);
-                    posicaoEmbarcacao[contador] = quadrantes[xAleatorio][i];
 
-                    contador++;
+            if (xAleatorio >= 0 && xAleatorio <= 9 && yAleatorio < (9 - embarcacao.getTamanho()) + 1) {
+                boolean livre = true;
+                for (int i = yAleatorio; i < (9 - embarcacao.getTamanho()) + 1; i++) {
+                    if (quadrantes[xAleatorio][yAleatorio].getPreenchidoPorNavio())
+                        livre = false;
                 }
-                embarcacao.setPosicao(posicaoEmbarcacao);
+                if (livre) {
+                    System.out.println("x :" + xAleatorio);
+                    Quadrante posicaoEmbarcacao[] = new Quadrante[embarcacao.getTamanho()];
+                    for (int i = yAleatorio; i <= yAleatorio + (embarcacao.getTamanho() - 1); i++) {
+                        System.out.println("y:" + i);
+                        this.quadrantes[xAleatorio][i].setPreenchidoPorNavio(true);
+                        posicaoEmbarcacao[contador] = quadrantes[xAleatorio][i];
+                        contador++;
+                    }
 
-                return embarcacao;
+                    System.out.println("Embarcacao: " + embarcacao.getTipo());
+                    System.out.println("linha - coluna: " + xAleatorio + " - " + yAleatorio);
+                    embarcacao.setPosicao(posicaoEmbarcacao);
+
+                    return embarcacao;
+                }
             }
 
         }
@@ -82,41 +87,6 @@ public class TabuleiroController {
     }
 
     void atacarAdversario(Node source, GridPane tabuleiroAtacado) {
-        try {
-            int linha = 0, coluna = 0;
-
-            if (tabuleiroAtacado.getRowIndex(source) != null)
-                linha = tabuleiroAtacado.getRowIndex(source);
-            if (tabuleiroAtacado.getColumnIndex(source) != null)
-                coluna = tabuleiroAtacado.getColumnIndex(source);
-            System.out.println(coluna + " - " + linha);
-            Quadrante qAlvo = new Quadrante(linha, coluna, quadrantes[linha][coluna].getAtacado(),
-                    quadrantes[linha][coluna].getPreenchidoPorNavio());
-
-            if (!qAlvo.isAtacado()) {
-                System.out.println("Entrou no não atacado");
-                Button botao = new Button();
-                try {
-                    botao = (Button) tabuleiroAtacado.getChildren();
-                } catch (Exception e) {
-                    System.out.println("É aqui");
-                    System.out.println(e);
-                }
-
-                botao.setStyle("-fx-background-color: Red");
-                botao.setPrefSize(42, 42);
-                tabuleiroAtacado.add(botao, coluna, linha);
-
-                quadrantes[linha][coluna].setAtacado(true);
-
-                if (qAlvo.isPreenchidoPorNavio()) {
-
-                }
-            }
-            System.out.println("Já foi atacado");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
     }
 
 }
