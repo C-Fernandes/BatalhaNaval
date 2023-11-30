@@ -9,7 +9,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
    prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.imd.Controller.MenuInicialController">
+   xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="jogador1" layoutX="85.0" layoutY="329.0" prefHeight="52.0" prefWidth="302.0" />
       <TextField fx:id="jogador2" layoutX="541.0" layoutY="339.0" prefHeight="52.0"

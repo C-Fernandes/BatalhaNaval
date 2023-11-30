@@ -1,10 +1,11 @@
 package br.com.imd.Model;
 
-public class Corveta extends Embarcacao{
+public class Corveta extends Embarcacao {
 
-    public Corveta(){
+    public Corveta() {
         setTamanho(2);
         setTipo(EmbarcacaoENUM.CORVETA);
         setDestruido(false);
+        setEhVertical(false);
     }
 }

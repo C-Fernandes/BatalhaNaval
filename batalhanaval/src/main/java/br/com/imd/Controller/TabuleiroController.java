@@ -11,13 +11,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
+import java.util.Random;
 
 public class TabuleiroController {
 
     private Quadrante[][] quadrantes;
-
     private boolean moverDestroyer = false;
-    String jogadorDaVez;
 
     public TabuleiroController() {
         this.quadrantes = new Quadrante[10][10];
@@ -26,6 +25,7 @@ public class TabuleiroController {
                 quadrantes[i][j] = new Quadrante(i, j);
             }
         }
+
     }
 
     public Quadrante[][] getQuadrantes() {
@@ -54,20 +54,31 @@ public class TabuleiroController {
             System.out.println("Jogador " + a.getNome() + " venceu");
     }
 
-    public void pAleatoriamente(Embarcacao embarcacao) {
+    public Embarcacao pAleatoriamente(Embarcacao embarcacao) {
         int contador = 0;
         while (true) {
-            int xAleatorio = (int) Math.random() * 9 + 0, yAleatorio = (int) Math.random() * 9 + 0;
-            if (xAleatorio >= 0 && xAleatorio <= (9 - embarcacao.getTamanho()) + 1) {
-                Quadrante posicaoEmbarcacao[] = new Quadrante[embarcacao.getTamanho()];
 
-                for (int i = yAleatorio; i < yAleatorio + embarcacao.getTamanho(); i++) {
+            Random numAleatorio = new Random();
+            System.out.println(embarcacao.getTamanho());
+            int xAleatorio = numAleatorio.nextInt(10), yAleatorio = numAleatorio.nextInt(10);
+            System.out.println(xAleatorio + " - " + yAleatorio);
+            System.out.println((9 - embarcacao.getTamanho()) + 1);
+            if (xAleatorio >= 0 && xAleatorio <= 9 && yAleatorio <= (9 - embarcacao.getTamanho()) + 1
+                    && (!quadrantes[xAleatorio][xAleatorio].getPreenchidoPorNavio())) {
+                System.out.println("Entrou no if");
+                Quadrante posicaoEmbarcacao[] = new Quadrante[embarcacao.getTamanho()];
+                System.out.println(yAleatorio + (embarcacao.getTamanho() - 1));
+                for (int i = yAleatorio; i < yAleatorio + (embarcacao.getTamanho() - 1); i++) {
+                    this.quadrantes[xAleatorio][i].setPreenchidoPorNavio(true);
                     posicaoEmbarcacao[contador] = quadrantes[xAleatorio][i];
+
                     contador++;
                 }
                 embarcacao.setPosicao(posicaoEmbarcacao);
-                break;
+
+                return embarcacao;
             }
+
         }
 
     }

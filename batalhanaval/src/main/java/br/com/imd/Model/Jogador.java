@@ -3,52 +3,33 @@ package br.com.imd.Model;
 public class Jogador {
     private String nome;
     private int pontuacao;
-    private Embarcacao[] embarcacoes;
+    private Embarcacao[] embarcacoes = { new Destroyer(), new Corveta(), new Fragata(), new Submarino() };
 
     public Jogador(String nome) {
         this.nome = nome;
         this.pontuacao = 0;
-        this.embarcacoes = new Embarcacao[] { new Destroyer(), new Corveta(), new Fragata(), new Submarino() };
 
     }
-    //Prototipo de função para posicionar navios
-    /*
-     * public Quadrante[][] posicionarNavios(int[] x, int[] y, int tipo) {
-     * // definir quadrantes ocupados pelas embarcações
-     * boolean verificacaoX = true, verificacaoY = true;
-     * if (x.length - 1 < 0 || x.length - 1 > 9)
-     * return null;
-     * if (y.length - 1 < 0 || y.length - 1 > 9) {
-     * return null;
-     * } else {
-     * if (x.length > 1) {
-     * int posicaoX = x[0];
-     * for (int i = 1; i < x.length; i++) {
-     * if (posicaoX - x[i] == -1 || posicaoX - x[i] == 1)
-     * posicaoX = x[i];
-     * else {
-     * verificacaoX = false;
-     * return null;
-     * }
-     * 
-     * }
-     * }
-     * if (y.length > 1) {
-     * int posicaoY = x[0];
-     * for (int i = 1; i < x.length; i++) {
-     * if (posicaoY - y[i] == -1 || posicaoY - y[i] == 1)
-     * posicaoY = y[i];
-     * else {
-     * verificacaoX = false;
-     * return null;
-     * }
-     * }
-     * }
-     * // Não existe barco 1x1
-     * else return null;
-     * }
-     * }
-     */
+
+    public Jogador() {
+        this.pontuacao = 0;
+    }
+
+    public Embarcacao getDestroyer() {
+        return this.embarcacoes[0];
+    }
+
+    public Embarcacao getCorveta() {
+        return this.embarcacoes[1];
+    }
+
+    public Embarcacao getFragata() {
+        return this.embarcacoes[2];
+    }
+
+    public Embarcacao getSubmarino() {
+        return this.embarcacoes[3];
+    }
 
     public String getNome() {
         return this.nome;

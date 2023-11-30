@@ -8,19 +8,23 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import br.com.imd.Controller.MenuController;
+
 /**
  * JavaFX App
  */
 public class App extends Application {
 
     private static Scene scene;
+    private static MenuController menuController;
 
     @Override
     public void start(Stage stage) throws IOException {
 
         try {
-            String caminho = "View/menu-inicial";
-            scene = new Scene(loadFXML(caminho), 1000, 650);
+            this.menuController = MenuController.getInstancia();
+            scene = new Scene(loadFXML("View/menu-inicial"), 1000, 650);
+
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
@@ -31,11 +35,13 @@ public class App extends Application {
     }
 
     public static void setRoot(String fxml) throws IOException {
+
         scene.setRoot(loadFXML(fxml));
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        fxmlLoader.setController(menuController);
         return fxmlLoader.load();
     }
 
