@@ -1,9 +1,12 @@
 package br.com.imd.Model;
 
+import br.com.imd.Controller.TabuleiroController;
+
 public class Jogador {
     private String nome;
     private int pontuacao;
     private Embarcacao[] embarcacoes = { new Destroyer(), new Corveta(), new Fragata(), new Submarino() };
+    TabuleiroController tabuleiro = new TabuleiroController();
 
     public Jogador(String nome) {
         this.nome = nome;
@@ -13,6 +16,10 @@ public class Jogador {
 
     public Jogador() {
         this.pontuacao = 0;
+    }
+
+    public void posicionarEmbarcacoesAleatoriamente() {
+        this.embarcacoes = tabuleiro.posicionarAleatoriamente(this.embarcacoes);
     }
 
     public Embarcacao getDestroyer() {
@@ -53,6 +60,14 @@ public class Jogador {
 
     public void setEmbarcacoes(Embarcacao[] embarcacoes) {
         this.embarcacoes = embarcacoes;
+    }
+
+    public TabuleiroController getTabuleiro() {
+        return this.tabuleiro;
+    }
+
+    public void setTabuleiro(TabuleiroController tabuleiro) {
+        this.tabuleiro = tabuleiro;
     }
 
 }

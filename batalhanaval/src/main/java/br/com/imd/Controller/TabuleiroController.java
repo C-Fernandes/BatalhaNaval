@@ -51,39 +51,48 @@ public class TabuleiroController {
             System.out.println("Jogador " + a.getNome() + " venceu");
     }
 
-    public Embarcacao pAleatoriamente(Embarcacao embarcacao) {
-        int contador = 0;
-        while (true) {
+    public Embarcacao[] posicionarAleatoriamente(Embarcacao embarcacoes[]) {
 
-            Random numAleatorio = new Random();
-            int xAleatorio = numAleatorio.nextInt(10), yAleatorio = numAleatorio.nextInt(10);
+        for (int i = 0; i < embarcacoes.length; i++) {
 
-            if (xAleatorio >= 0 && xAleatorio <= 9 && yAleatorio < (9 - embarcacao.getTamanho()) + 1) {
-                boolean livre = true;
-                for (int i = yAleatorio; i < (9 - embarcacao.getTamanho()) + 1; i++) {
-                    if (quadrantes[xAleatorio][yAleatorio].getPreenchidoPorNavio())
-                        livre = false;
-                }
-                if (livre) {
-                    System.out.println("x :" + xAleatorio);
-                    Quadrante posicaoEmbarcacao[] = new Quadrante[embarcacao.getTamanho()];
-                    for (int i = yAleatorio; i <= yAleatorio + (embarcacao.getTamanho() - 1); i++) {
-                        System.out.println("y:" + i);
-                        this.quadrantes[xAleatorio][i].setPreenchidoPorNavio(true);
-                        posicaoEmbarcacao[contador] = quadrantes[xAleatorio][i];
-                        contador++;
+            while (true) {
+                int contador = 0;
+                Random numAleatorio = new Random();
+                int xAleatorio = numAleatorio.nextInt(10), yAleatorio = numAleatorio.nextInt(10);
+                if (xAleatorio >= 0 && xAleatorio <= 9 && yAleatorio < (9 - embarcacoes[i].getTamanho()) + 1) {
+                    boolean livre = true;
+                    for (int k = yAleatorio; k < (9 - embarcacoes[i].getTamanho()) + 1; k++)
+                        if (quadrantes[xAleatorio][yAleatorio].getPreenchidoPorNavio())
+                            livre = false;
+
+                    if (livre) {
+                        System.out.println("x :" + xAleatorio);
+                        Quadrante posicaoEmbarcacao[] = new Quadrante[embarcacoes[i].getTamanho()];
+
+                        System.out.println(embarcacoes[i].getTamanho());
+                        try {
+                            for (int j = yAleatorio; j < yAleatorio + (embarcacoes[i].getTamanho()); j++) {
+                                this.quadrantes[xAleatorio][j].setPreenchidoPorNavio(true);
+                                System.out.println("j:" + j + " Contador: " + contador);
+                                posicaoEmbarcacao[contador] = quadrantes[xAleatorio][j];
+                                contador++;
+                                System.out.println("y:" + j + " Contador: " + contador);
+
+                            }
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+
+                        System.out.println("Embarcacao: " + embarcacoes[i].getTipo());
+                        System.out.println("linha - coluna: " + xAleatorio + " - " + yAleatorio);
+
+                        embarcacoes[i].setPosicao(posicaoEmbarcacao);
+                        break;
                     }
-
-                    System.out.println("Embarcacao: " + embarcacao.getTipo());
-                    System.out.println("linha - coluna: " + xAleatorio + " - " + yAleatorio);
-                    embarcacao.setPosicao(posicaoEmbarcacao);
-
-                    return embarcacao;
                 }
             }
-
         }
-
+        return embarcacoes;
     }
 
     void atacarAdversario(Node source, GridPane tabuleiroAtacado) {

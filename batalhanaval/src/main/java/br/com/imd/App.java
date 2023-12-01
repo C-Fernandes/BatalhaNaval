@@ -30,6 +30,7 @@ public class App extends Application {
         } catch (Exception e) {
             System.out.println("Problema aqui");
             System.out.println(e);
+            e.printStackTrace();
         }
     }
 

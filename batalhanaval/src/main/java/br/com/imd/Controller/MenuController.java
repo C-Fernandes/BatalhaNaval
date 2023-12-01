@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
@@ -22,9 +23,7 @@ import javafx.scene.text.Text;
 
 public class MenuController implements Initializable {
     private static MenuController instancia;
-    TabuleiroController tabuleiControllerJogador1, tabuleiControllerJogador2;
     JogadorController jogadores;
-    boolean jogoIniciado;
     String telaMomento;
     Jogador vencedor;
 
@@ -36,6 +35,12 @@ public class MenuController implements Initializable {
             instancia = new MenuController();
         }
         return instancia;
+    }
+
+    private MenuController() {
+        this.jogadores = new JogadorController();
+        this.telaMomento = "View/menu-inicial";
+        vencedor = null;
     }
 
     // Atributos FXML:
@@ -57,37 +62,39 @@ public class MenuController implements Initializable {
     private GridPane tabuleiroAtacado;
     @FXML
     private Text jogadorVencedor;
+    @FXML
+    private Label j1;
+    @FXML
+    private Label j2;
+
+    @FXML
+    private Label ataque;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        if (vencedor != null) {
-            System.out.println("Entrou no primeiro if");
+        if (vencedor != null)
             jogadorVencedor.setText(vencedor.getNome());
-        } else {
-
+        else {
             Embarcacao embarcacoesDoJogador[] = new Embarcacao[4];
             Quadrante tabuleiroInimigo[][] = new Quadrante[10][10];
+            Jogador jogador, oponente;
             if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial") {
                 if (jogadores.getJogadorDaVez() == 1) {
-                    embarcacoesDoJogador = jogadores.getJogador1().getEmbarcacoes();
-                    tabuleiroInimigo = tabuleiControllerJogador2.getQuadrantes();
-                    if (!jogoIniciado) {
-                        embarcacoesDoJogador = posicionarBarcosAleatoriamente(embarcacoesDoJogador);
-                        jogadores.getJogador1().setEmbarcacoes(embarcacoesDoJogador);
-                    }
-                }
-                if (jogadores.getJogadorDaVez() == 2) {
-                    embarcacoesDoJogador = jogadores.getJogador2().getEmbarcacoes();
-                    tabuleiroInimigo = tabuleiControllerJogador1.getQuadrantes();
-                    if (!jogoIniciado) {
-                        embarcacoesDoJogador = posicionarBarcosAleatoriamente(embarcacoesDoJogador);
-                        jogadores.getJogador2().setEmbarcacoes(embarcacoesDoJogador);
-                    }
+                    jogador = jogadores.getJogador1();
+                    oponente = jogadores.getJogador2();
+                } else {
+                    jogador = jogadores.getJogador2();
+                    oponente = jogadores.getJogador1();
 
                 }
-                System.out.println("\nJogador da vez:" + jogadores.getJogadorDaVez());
+
+                embarcacoesDoJogador = jogador.getEmbarcacoes();
+                tabuleiroInimigo = oponente.getTabuleiro().getQuadrantes();
 
                 if (telaMomento != "View/setupJogador1" && telaMomento != "View/setupJogador2") {
+                    j1.setText(jogadores.getJogador1().getNome());
+                    j2.setText(jogadores.getJogador2().getNome());
+                    ataque.setText(jogador.getNome() + ", ataque!");
 
                     Button botao = new Button();
                     botao.setPrefSize(42, 42);
@@ -141,31 +148,17 @@ public class MenuController implements Initializable {
                     tabuleiroDoJogador.getChildren().remove(submarino);
 
             }
-
         }
-    }
 
-    private MenuController() {
-        this.tabuleiControllerJogador1 = new TabuleiroController();
-        this.tabuleiControllerJogador2 = new TabuleiroController();
-        this.jogadores = new JogadorController();
-        this.jogoIniciado = false;
-        this.telaMomento = "View/menu-inicial";
-        vencedor = null;
     }
 
     // Funções de controle:
-
-    Embarcacao[] posicionarBarcosAleatoriamente(Embarcacao embarcacoes[]) {
-        Embarcacao embarcacoesVetor[] = new Embarcacao[4];
-        for (int i = 0; i < embarcacoes.length; i++) {
-            System.out.println(jogadores.getJogadorDaVez());
-            if (jogadores.getJogadorDaVez() == 1)
-                embarcacoesVetor[i] = tabuleiControllerJogador1.pAleatoriamente(embarcacoes[i]);
-            else
-                embarcacoesVetor[i] = tabuleiControllerJogador2.pAleatoriamente(embarcacoes[i]);
-        }
-        return embarcacoesVetor;
+    void criarJogadores() {
+        jogadores.setJogadorDaVez(1);
+        jogadores.getJogador1().setNome(jogador1.getText());
+        jogadores.getJogador2().setNome(jogador2.getText());
+        jogadores.getJogador1().posicionarEmbarcacoesAleatoriamente();
+        jogadores.getJogador2().posicionarEmbarcacoesAleatoriamente();
     }
 
     // Funções Scenner Builder:
@@ -177,36 +170,18 @@ public class MenuController implements Initializable {
         } catch (Exception e) {
             System.out.println(e);
         }
-
     }
 
     @FXML
     void cadastrarUsuarios(ActionEvent event) throws IOException {
-
-        JogadorController j = new JogadorController();
-        j.setJogadorDaVez(1);
-        Jogador jogador = new Jogador();
-        jogador = j.getJogador1();
-        jogador.setNome(jogador1.getText());
-        j.setJogador1(jogador);
-        jogador = j.getJogador2();
-        jogador.setNome(jogador2.getText());
-        j.setJogador2(jogador);
-        this.jogadores = j;
-
-        System.out.println(jogadores.getJogador1().getNome());
-        try {
-            telaMomento = "View/setupJogador1";
-            App.setRoot("View/setupJogador1");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        criarJogadores();
+        telaMomento = "View/setupJogador1";
+        App.setRoot("View/setupJogador1");
     }
 
     @FXML
     void setupJogador2(ActionEvent event) throws IOException {
         try {
-
             jogadores.setJogadorDaVez(2);
             System.out.println(jogadores.getJogador2().getNome());
             telaMomento = "View/setupJogador2";
@@ -217,12 +192,14 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    void jogador1Jogar(ActionEvent event) throws IOException {
-
+    void iniciarJogo(ActionEvent event) throws IOException {
         jogadores.setJogadorDaVez(1);
-        jogoIniciado = true;
-        telaMomento = "View/Jogador1Jogar";
-        App.setRoot(telaMomento);
+        try {
+            telaMomento = "View/Jogador1Jogar";
+            App.setRoot(telaMomento);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -245,7 +222,13 @@ public class MenuController implements Initializable {
     }
 
     boolean moverEmbarcacao(Embarcacao embarcacao, int linha, int coluna) {
-        Quadrante tabuleiroJogador[][] = tabuleiControllerJogador1.getQuadrantes();
+        Jogador jogadorDaVez;
+        if (jogadores.getJogadorDaVez() == 1)
+            jogadorDaVez = jogadores.getJogador1();
+        else
+            jogadorDaVez = jogadores.getJogador2();
+
+        Quadrante tabuleiroJogador[][] = jogadorDaVez.getTabuleiro().getQuadrantes();
         if (embarcacao.getEhVertical()) {
             if (linha + (embarcacao.getTamanho() - 1) < 10) {
 
@@ -309,16 +292,11 @@ public class MenuController implements Initializable {
             }
 
         }
-        Jogador j;
         if (jogadores.getJogadorDaVez() == 1) {
-            tabuleiControllerJogador1.setQuadrantes(novoTabuleiro);
-
-            j = jogadores.getJogador1();
-            j.setEmbarcacoes(embarcacoes);
-            jogadores.setJogador1(j);
-
+            jogadores.getJogador1().getTabuleiro().setQuadrantes(novoTabuleiro);
+            jogadores.getJogador1().setEmbarcacoes(embarcacoes);
         } else {
-            tabuleiControllerJogador2.setQuadrantes(novoTabuleiro);
+            jogadores.getJogador2().getTabuleiro().setQuadrantes(novoTabuleiro);
             jogadores.getJogador2().setEmbarcacoes(embarcacoes);
         }
     }
@@ -401,9 +379,9 @@ public class MenuController implements Initializable {
             Quadrante quadrantes[][];
 
             if (jogadores.getJogadorDaVez() == 1)
-                quadrantes = tabuleiControllerJogador2.getQuadrantes();
+                quadrantes = jogadores.getJogador1().getTabuleiro().getQuadrantes();
             else
-                quadrantes = tabuleiControllerJogador1.getQuadrantes();
+                quadrantes = jogadores.getJogador1().getTabuleiro().getQuadrantes();
 
             Quadrante qAlvo = new Quadrante(linha, coluna, quadrantes[linha][coluna].getAtacado(),
                     quadrantes[linha][coluna].getPreenchidoPorNavio());
@@ -417,11 +395,11 @@ public class MenuController implements Initializable {
 
                 if (qAlvo.isPreenchidoPorNavio()) {
                     botao.setStyle("-fx-background-color: red");
+                    tabuleiroAtacado.add(botao, coluna, linha);
                 } else {
-
+                    tabuleiroAtacado.add(botao, coluna, linha);
                     mudarTela = true;
                 }
-                tabuleiroAtacado.add(botao, coluna, linha);
 
             }
             if (jogadores.getJogadorDaVez() == 1) {
@@ -429,12 +407,12 @@ public class MenuController implements Initializable {
                         .setEmbarcacoes(verificarNavioDestruido(jogadores.getJogador2(), linha, coluna));
                 System.out.println(
                         "Tamanho embarcação depois da função: " + jogadores.getJogador2().getEmbarcacoes().length);
-                tabuleiControllerJogador2.setQuadrantes(qAlvo);
+                jogadores.getJogador2().getTabuleiro().setQuadrantes(qAlvo);
             }
             if (jogadores.getJogadorDaVez() == 2) {
                 jogadores.getJogador1()
                         .setEmbarcacoes(verificarNavioDestruido(jogadores.getJogador1(), linha, coluna));
-                tabuleiControllerJogador1.setQuadrantes(qAlvo);
+                jogadores.getJogador1().getTabuleiro().setQuadrantes(qAlvo);
             }
             if (mudarTela) {
                 if (jogadores.getJogadorDaVez() == 1) {
@@ -453,11 +431,6 @@ public class MenuController implements Initializable {
         }
     }
 
-
-
-
-
-    void moverEmbarcacao()
     @FXML
     void moverDestroyer(ActionEvent event) throws IOException {
 
@@ -502,7 +475,6 @@ public class MenuController implements Initializable {
                 }
 
             }
-          
 
         } catch (Exception e) {
             System.out.println(e);

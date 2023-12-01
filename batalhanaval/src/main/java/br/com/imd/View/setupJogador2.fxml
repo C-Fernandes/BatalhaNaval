@@ -154,6 +154,6 @@
             <Font size="54.0" />
          </font>
       </Text>
-      <Button layoutX="690.0" layoutY="521.0" mnemonicParsing="false" onAction="#jogador1Jogar" prefHeight="52.0" prefWidth="177.0" text="Continuar" />
+      <Button layoutX="690.0" layoutY="521.0" mnemonicParsing="false" onAction="#iniciarJogo" prefHeight="52.0" prefWidth="177.0" text="Continuar" />
    </children>
 </Pane>

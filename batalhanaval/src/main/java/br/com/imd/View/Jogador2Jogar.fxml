@@ -276,17 +276,17 @@
             <Button fx:id="submarino" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submarino" GridPane.columnIndex="5" GridPane.rowIndex="5" />
          </children>
       </GridPane>
-      <Label layoutX="78.0" layoutY="578.0" prefHeight="34.0" prefWidth="400.0" text="Jogador 2">
+      <Label fx:id="j2" layoutX="78.0" layoutY="578.0" prefHeight="34.0" prefWidth="400.0" text="Jogador 2">
          <font>
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="532.0" layoutY="579.0" prefHeight="34.0" prefWidth="400.0" text="Jogador 1">
+      <Label fx:id="j1" layoutX="532.0" layoutY="579.0" prefHeight="34.0" prefWidth="400.0" text="Jogador 1">
          <font>
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="87.0" layoutY="33.0" prefHeight="49.0" prefWidth="332.0" text="Jogador 2, ataque!">
+      <Label fx:id="ataque" layoutX="87.0" layoutY="33.0" prefHeight="49.0" prefWidth="332.0" text="Jogador 2, ataque!">
          <font>
             <Font size="36.0" />
          </font>

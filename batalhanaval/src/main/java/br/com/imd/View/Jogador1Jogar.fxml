@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane fx:id="tabuleiroAtacado" gridLinesVisible="true" layoutX="87.0" layoutY="186.0" prefHeight="400.0" prefWidth="400.0">
@@ -276,17 +275,17 @@
             <Button fx:id="submarino" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submarino" GridPane.columnIndex="5" GridPane.rowIndex="5" />
          </children>
       </GridPane>
-      <Label layoutX="88.0" layoutY="588.0" prefHeight="34.0" prefWidth="400.0" text="Jogador 2">
+      <Label fx:id="j2" layoutX="88.0" layoutY="588.0" prefHeight="34.0" prefWidth="400.0" text="Jogador 2">
          <font>
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="542.0" layoutY="589.0" prefHeight="34.0" prefWidth="400.0" text="Jogador 1">
+      <Label fx:id="j1" layoutX="542.0" layoutY="589.0" prefHeight="34.0" prefWidth="400.0" text="Jogador 1">
          <font>
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="97.0" layoutY="43.0" prefHeight="49.0" prefWidth="332.0" text="Jogador 1, ataque!">
+      <Label fx:id="ataque" layoutX="97.0" layoutY="43.0" prefHeight="54.0" prefWidth="346.0" text="Jogador 1, ataque!">
          <font>
             <Font size="36.0" />
          </font>
