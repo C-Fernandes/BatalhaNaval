@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,8 +24,13 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
 
         try {
+            ImageView imageView = new ImageView();
+            // Image gif = new Image("/src/main/java/br/com/imd/Controller/gifnavio.gif");
+            // imageView.setImage(gif);
+
             this.menuController = MenuController.getInstancia();
             scene = new Scene(loadFXML("View/menu-inicial"), 1000, 650);
+            stage.setTitle("Batalha Naval");
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();

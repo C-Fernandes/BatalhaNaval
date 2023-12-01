@@ -5,6 +5,7 @@ import br.com.imd.Controller.TabuleiroController;
 public class Jogador {
     private String nome;
     private int pontuacao;
+    private boolean mostrarNavios = false;
     private Embarcacao[] embarcacoes = { new Destroyer(), new Corveta(), new Fragata(), new Submarino() };
     TabuleiroController tabuleiro = new TabuleiroController();
 
@@ -14,14 +15,14 @@ public class Jogador {
 
     }
 
-    
-
     public Jogador() {
         this.pontuacao = 0;
     }
-public void atualizarEmbarcacoes(){
+
+    public void atualizarEmbarcacoes() {
         this.embarcacoes = tabuleiro.verificarNavioDestruido(embarcacoes);
     }
+
     public void posicionarEmbarcacoesAleatoriamente() {
         this.embarcacoes = tabuleiro.posicionarAleatoriamente(this.embarcacoes);
     }
@@ -72,6 +73,21 @@ public void atualizarEmbarcacoes(){
 
     public void setTabuleiro(TabuleiroController tabuleiro) {
         this.tabuleiro = tabuleiro;
+    }
+
+    public boolean isMostrarNavios() {
+        return this.mostrarNavios;
+    }
+
+    public boolean getMostrarNavios() {
+        return this.mostrarNavios;
+    }
+
+    public void setMostrarNavios() {
+        if (mostrarNavios)
+            this.mostrarNavios = false;
+        else
+            this.mostrarNavios = true;
     }
 
 }

@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
@@ -69,12 +70,14 @@ public class MenuController implements Initializable {
     @FXML
     private Label ataque;
 
+    @FXML
+    private CheckBox vNavios;
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         if (vencedor != null)
             jogadorVencedor.setText(vencedor.getNome());
         else {
-            Embarcacao embarcacoesDoJogador[] = new Embarcacao[4];
             Quadrante tInimigo[][], tJogador[][];
             Jogador jogador, oponente;
             if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial") {
@@ -85,76 +88,100 @@ public class MenuController implements Initializable {
                     jogador = jogadores.getJogador2();
                     oponente = jogadores.getJogador1();
                 }
-                embarcacoesDoJogador = jogador.getEmbarcacoes();
-                System.out.println("Qtd embarcacoes: " + embarcacoesDoJogador.length);
-                tInimigo = oponente.getTabuleiro().getQuadrantes();
                 tJogador = jogador.getTabuleiro().getQuadrantes();
+                tInimigo = oponente.getTabuleiro().getQuadrantes();
 
-                if (telaMomento != "View/setupJogador1" && telaMomento != "View/setupJogador2") {
+                if (telaMomento != "View/setupJogador2")
                     j1.setText(jogadores.getJogador1().getNome());
+                if (telaMomento != "View/setupJogador1")
                     j2.setText(jogadores.getJogador2().getNome());
-                    ataque.setText(jogador.getNome() + ", ataque!");
+                if (telaMomento != "View/setupJogador1" && telaMomento != "View/setupJogador2") {
                     jogador.atualizarEmbarcacoes();
-                    embarcacoesDoJogador = jogador.getEmbarcacoes();
-
-                    for (int i = 0; i < 10; i++) {
-                        for (int j = 0; j < 10; j++) {
-                            if (tJogador[i][j].isAtacado()) {int index = i *  tabuleiroDoJogador.getRowCount()+ j;
-                                tabuleiroDoJogador.getChildren().get(index).setStyle("-fx-background-color: purple");
-                                if (tJogador[i][j].isPreenchidoPorNavio())
-                                    tabuleiroDoJogador.getChildren().get(index).setStyle("-fx-background-color: red");
-                            }
-                            if (tInimigo[i][j].isAtacado()) {int index = i *  tabuleiroAtacado.getRowCount()+ j;
-                                tabuleiroAtacado.getChildren().get(index).setStyle("-fx-background-color: purple");
-                                if (tInimigo[i][j].isPreenchidoPorNavio())
-                                    tabuleiroAtacado.getChildren().get(index).setStyle("-fx-background-color: red");
-                            }
-                        }
-                    }
+                    vNavios.setSelected(jogador.getMostrarNavios());
+                    ataque.setText(jogador.getNome() + ", ataque!");
+                    esconderMostrarNavios(jogador.getMostrarNavios());
                 }
-                Boolean destroyerB = false, corvetaB = false, submarinoB = false, fragataB = false;
-                for (int i = 0; i < embarcacoesDoJogador.length; i++) {
-
-                    Quadrante posicao[] = embarcacoesDoJogador[i].getPosicao();
-                    if (embarcacoesDoJogador[i].getTipo() == EmbarcacaoENUM.DESTROYER) {
-                        tabuleiroDoJogador.setColumnIndex(destroyer, posicao[0].getY());
-                        tabuleiroDoJogador.setRowIndex(destroyer, posicao[0].getX());
-                        destroyerB = true;
-
-                    }
-                    if (embarcacoesDoJogador[i].getTipo() == EmbarcacaoENUM.CORVETA) {
-                        tabuleiroDoJogador.setColumnIndex(corveta, posicao[0].getY());
-                        tabuleiroDoJogador.setRowIndex(corveta, posicao[0].getX());
-                        corvetaB = true;
-
-                    }
-                    if (embarcacoesDoJogador[i].getTipo() == EmbarcacaoENUM.SUBMARINO) {
-                        tabuleiroDoJogador.setColumnIndex(submarino, posicao[0].getY());
-                        tabuleiroDoJogador.setRowIndex(submarino, posicao[0].getX());
-                        submarinoB = true;
-
-                    }
-                    if (embarcacoesDoJogador[i].getTipo() == EmbarcacaoENUM.FRAGATA) {
-                        tabuleiroDoJogador.setColumnIndex(fragata, posicao[0].getY());
-                        tabuleiroDoJogador.setRowIndex(fragata, posicao[0].getX());
-                        fragataB = true;
-                    }
-                }
-                if (!destroyerB)
-                    tabuleiroDoJogador.getChildren().remove(destroyer);
-                if (!corvetaB)
-                    tabuleiroDoJogador.getChildren().remove(corveta);
-                if (!fragataB)
-                    tabuleiroDoJogador.getChildren().remove(fragata);
-                if (!submarinoB)
-                    tabuleiroDoJogador.getChildren().remove(submarino);
+                mostrarQuadrantesAtacados(tJogador, tInimigo);
+                mostrarNaviosJogador(jogador.getEmbarcacoes());
 
             }
         }
-
     }
 
     // Funções de controle:
+    void esconderMostrarNavios(Boolean v) {
+        int opacidade;
+        if (v)
+            opacidade = 1;
+        else
+            opacidade = 0;
+
+        if (destroyer != null)
+            destroyer.setOpacity(opacidade);
+        if (corveta != null)
+            corveta.setOpacity(opacidade);
+        if (fragata != null)
+            fragata.setOpacity(opacidade);
+        if (fragata != null)
+            submarino.setOpacity(opacidade);
+    }
+
+    void mostrarQuadrantesAtacados(Quadrante tJogador[][], Quadrante tInimigo[][]) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                int index = (i * 10) + j;
+                if (tJogador[i][j].isAtacado()) {
+                    tabuleiroDoJogador.getChildren().get(index).setStyle("-fx-background-color: purple");
+                    if (tJogador[i][j].isPreenchidoPorNavio())
+                        tabuleiroDoJogador.getChildren().get(index).setStyle("-fx-background-color: red");
+                }
+                if (tInimigo[i][j].isAtacado()) {
+                    tabuleiroAtacado.getChildren().get(index).setStyle("-fx-background-color: purple");
+                    if (tInimigo[i][j].isPreenchidoPorNavio())
+                        tabuleiroAtacado.getChildren().get(index).setStyle("-fx-background-color: red");
+                }
+            }
+        }
+    }
+
+    void mostrarNaviosJogador(Embarcacao embarcacoesDoJogador[]) {
+        System.out.println("Entrou aqui");
+        Boolean destroyerB = false, corvetaB = false, submarinoB = false, fragataB = false;
+        for (int i = 0; i < embarcacoesDoJogador.length; i++) {
+
+            Quadrante posicao[] = embarcacoesDoJogador[i].getPosicao();
+            if (embarcacoesDoJogador[i].getTipo() == EmbarcacaoENUM.DESTROYER) {
+                System.out.println("Passou aqui");
+                tabuleiroDoJogador.setColumnIndex(destroyer, posicao[0].getY());
+                tabuleiroDoJogador.setRowIndex(destroyer, posicao[0].getX());
+                destroyerB = true;
+            }
+            if (embarcacoesDoJogador[i].getTipo() == EmbarcacaoENUM.CORVETA) {
+                tabuleiroDoJogador.setColumnIndex(corveta, posicao[0].getY());
+                tabuleiroDoJogador.setRowIndex(corveta, posicao[0].getX());
+                corvetaB = true;
+            }
+            if (embarcacoesDoJogador[i].getTipo() == EmbarcacaoENUM.SUBMARINO) {
+                tabuleiroDoJogador.setColumnIndex(submarino, posicao[0].getY());
+                tabuleiroDoJogador.setRowIndex(submarino, posicao[0].getX());
+                submarinoB = true;
+            }
+            if (embarcacoesDoJogador[i].getTipo() == EmbarcacaoENUM.FRAGATA) {
+                tabuleiroDoJogador.setColumnIndex(fragata, posicao[0].getY());
+                tabuleiroDoJogador.setRowIndex(fragata, posicao[0].getX());
+                fragataB = true;
+            }
+        }
+        if (!destroyerB)
+            tabuleiroDoJogador.getChildren().remove(destroyer);
+        if (!corvetaB)
+            tabuleiroDoJogador.getChildren().remove(corveta);
+        if (!fragataB)
+            tabuleiroDoJogador.getChildren().remove(fragata);
+        if (!submarinoB)
+            tabuleiroDoJogador.getChildren().remove(submarino);
+    }
+
     void criarJogadores() {
         jogadores.setJogadorDaVez(1);
         jogadores.getJogador1().setNome(jogador1.getText());
@@ -164,6 +191,23 @@ public class MenuController implements Initializable {
     }
 
     // Funções Scenner Builder:
+
+    @FXML
+    void visualizar() {
+        Jogador jogadorDaVez = new Jogador();
+        if (jogadores.getJogadorDaVez() == 1) {
+            jogadores.getJogador1().setMostrarNavios();
+            jogadorDaVez = jogadores.getJogador1();
+            System.out.println(jogadores.getJogador1().isMostrarNavios());
+        }
+        if (jogadores.getJogadorDaVez() == 2) {
+            jogadores.getJogador2().setMostrarNavios();
+            jogadorDaVez = jogadores.getJogador2();
+            System.out.println(jogadores.getJogador2().isMostrarNavios());
+        }
+        esconderMostrarNavios(jogadorDaVez.getMostrarNavios());
+    }
+
     @FXML
     void jogar(ActionEvent event) throws IOException {
         try {
@@ -320,13 +364,11 @@ public class MenuController implements Initializable {
             quadrantes = jogadores.getJogador2().getTabuleiro().getQuadrantes();
         else
             quadrantes = jogadores.getJogador1().getTabuleiro().getQuadrantes();
-
-        Quadrante qAlvo = new Quadrante(linha, coluna, quadrantes[linha][coluna].getAtacado(),
-                quadrantes[linha][coluna].getPreenchidoPorNavio());
-        int index = linha * tabuleiroAtacado.getRowCount() + coluna;
-        if (!qAlvo.isAtacado()) {
+        int index = (linha * 10) + coluna;
+        if (!quadrantes[linha][coluna].isAtacado()) {
             quadrantes[linha][coluna].setAtacado(true);
-            if (qAlvo.isPreenchidoPorNavio()) {
+            System.out.println("mudou para atacado tabuleiro inimigo");
+            if (quadrantes[linha][coluna].isPreenchidoPorNavio()) {
                 tabuleiroAtacado.getChildren().get(index).setStyle("-fx-background-color: red");
             } else {
                 if (jogadores.getJogadorDaVez() == 1) {
