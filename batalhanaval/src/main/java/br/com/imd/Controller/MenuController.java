@@ -66,7 +66,6 @@ public class MenuController implements Initializable {
     private Label j1;
     @FXML
     private Label j2;
-
     @FXML
     private Label ataque;
 
@@ -76,7 +75,7 @@ public class MenuController implements Initializable {
             jogadorVencedor.setText(vencedor.getNome());
         else {
             Embarcacao embarcacoesDoJogador[] = new Embarcacao[4];
-            Quadrante tabuleiroInimigo[][] = new Quadrante[10][10];
+            Quadrante tInimigo[][], tJogador[][];
             Jogador jogador, oponente;
             if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial") {
                 if (jogadores.getJogadorDaVez() == 1) {
@@ -87,22 +86,28 @@ public class MenuController implements Initializable {
                     oponente = jogadores.getJogador1();
                 }
                 embarcacoesDoJogador = jogador.getEmbarcacoes();
-                tabuleiroInimigo = oponente.getTabuleiro().getQuadrantes();
+                System.out.println("Qtd embarcacoes: " + embarcacoesDoJogador.length);
+                tInimigo = oponente.getTabuleiro().getQuadrantes();
+                tJogador = jogador.getTabuleiro().getQuadrantes();
 
                 if (telaMomento != "View/setupJogador1" && telaMomento != "View/setupJogador2") {
                     j1.setText(jogadores.getJogador1().getNome());
                     j2.setText(jogadores.getJogador2().getNome());
                     ataque.setText(jogador.getNome() + ", ataque!");
                     jogador.atualizarEmbarcacoes();
+                    embarcacoesDoJogador = jogador.getEmbarcacoes();
 
-                    Button botao = new Button();
-                    botao.setPrefSize(42, 42);
                     for (int i = 0; i < 10; i++) {
                         for (int j = 0; j < 10; j++) {
-                            if (tabuleiroInimigo[i][j].isPreenchidoPorNavio()) {
-
-                            } else {
-
+                            if (tJogador[i][j].isAtacado()) {int index = i *  tabuleiroDoJogador.getRowCount()+ j;
+                                tabuleiroDoJogador.getChildren().get(index).setStyle("-fx-background-color: purple");
+                                if (tJogador[i][j].isPreenchidoPorNavio())
+                                    tabuleiroDoJogador.getChildren().get(index).setStyle("-fx-background-color: red");
+                            }
+                            if (tInimigo[i][j].isAtacado()) {int index = i *  tabuleiroAtacado.getRowCount()+ j;
+                                tabuleiroAtacado.getChildren().get(index).setStyle("-fx-background-color: purple");
+                                if (tInimigo[i][j].isPreenchidoPorNavio())
+                                    tabuleiroAtacado.getChildren().get(index).setStyle("-fx-background-color: red");
                             }
                         }
                     }
@@ -133,9 +138,7 @@ public class MenuController implements Initializable {
                         tabuleiroDoJogador.setColumnIndex(fragata, posicao[0].getY());
                         tabuleiroDoJogador.setRowIndex(fragata, posicao[0].getX());
                         fragataB = true;
-
                     }
-
                 }
                 if (!destroyerB)
                     tabuleiroDoJogador.getChildren().remove(destroyer);
@@ -299,56 +302,41 @@ public class MenuController implements Initializable {
             jogadores.getJogador2().setEmbarcacoes(embarcacoes);
         }
     }
+
     @FXML
     void atacar(ActionEvent event) throws IOException {
 
-        if (jogadores.getJogador1().getEmbarcacoes().length == 0
-                || jogadores.getJogador2().getEmbarcacoes().length == 0) {
-            if (jogadores.getJogador1().getEmbarcacoes().length == 0)
-                vencedor = jogadores.getJogador1();
-            if (jogadores.getJogador2().getEmbarcacoes().length == 0)
-                vencedor = jogadores.getJogador2();
+        int linha = 0, coluna = 0;
+        Node source = (Node) event.getSource();
 
-            App.setRoot("View/telaEncerramento");
+        if (tabuleiroAtacado.getRowIndex(source) != null)
+            linha = tabuleiroAtacado.getRowIndex(source);
+        if (tabuleiroAtacado.getColumnIndex(source) != null)
+            coluna = tabuleiroAtacado.getColumnIndex(source);
 
-        } else {
-            int linha = 0, coluna = 0;
-            boolean mudarTela = false;
-            Node source = (Node) event.getSource();
+        Quadrante quadrantes[][];
 
-            if (tabuleiroAtacado.getRowIndex(source) != null)
-                linha = tabuleiroAtacado.getRowIndex(source);
-            if (tabuleiroAtacado.getColumnIndex(source) != null)
-                coluna = tabuleiroAtacado.getColumnIndex(source);
+        if (jogadores.getJogadorDaVez() == 1)
+            quadrantes = jogadores.getJogador2().getTabuleiro().getQuadrantes();
+        else
+            quadrantes = jogadores.getJogador1().getTabuleiro().getQuadrantes();
 
-            Quadrante quadrantes[][];
-
-            if (jogadores.getJogadorDaVez() == 1)
-                quadrantes = jogadores.getJogador1().getTabuleiro().getQuadrantes();
-            else
-                quadrantes = jogadores.getJogador1().getTabuleiro().getQuadrantes();
-
-            Quadrante qAlvo = new Quadrante(linha, coluna, quadrantes[linha][coluna].getAtacado(),
-                    quadrantes[linha][coluna].getPreenchidoPorNavio());
-
-            if (!qAlvo.isAtacado()) {
-
-                quadrantes[linha][coluna].setAtacado(true);
-                if (qAlvo.isPreenchidoPorNavio()) {
-                    Button botao = new Button();
-                    botao.setStyle("-fx-background-color: red");
-                    tabuleiroAtacado.add(botao, coluna, linha);
-                } else
-                    mudarTela = true;
-
-            }
-            if (mudarTela) {
+        Quadrante qAlvo = new Quadrante(linha, coluna, quadrantes[linha][coluna].getAtacado(),
+                quadrantes[linha][coluna].getPreenchidoPorNavio());
+        int index = linha * tabuleiroAtacado.getRowCount() + coluna;
+        if (!qAlvo.isAtacado()) {
+            quadrantes[linha][coluna].setAtacado(true);
+            if (qAlvo.isPreenchidoPorNavio()) {
+                tabuleiroAtacado.getChildren().get(index).setStyle("-fx-background-color: red");
+            } else {
                 if (jogadores.getJogadorDaVez() == 1) {
                     jogadores.setJogadorDaVez(2);
                     telaMomento = "View/Jogador2Jogar";
+                    jogadores.getJogador2().getTabuleiro().setQuadrantes(quadrantes);
                 } else {
                     jogadores.setJogadorDaVez(1);
                     telaMomento = "View/Jogador1Jogar";
+                    jogadores.getJogador1().getTabuleiro().setQuadrantes(quadrantes);
                 }
                 App.setRoot(telaMomento);
             }
