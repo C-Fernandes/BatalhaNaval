@@ -85,9 +85,7 @@ public class MenuController implements Initializable {
                 } else {
                     jogador = jogadores.getJogador2();
                     oponente = jogadores.getJogador1();
-
                 }
-
                 embarcacoesDoJogador = jogador.getEmbarcacoes();
                 tabuleiroInimigo = oponente.getTabuleiro().getQuadrantes();
 
@@ -95,6 +93,7 @@ public class MenuController implements Initializable {
                     j1.setText(jogadores.getJogador1().getNome());
                     j2.setText(jogadores.getJogador2().getNome());
                     ataque.setText(jogador.getNome() + ", ataque!");
+                    jogador.atualizarEmbarcacoes();
 
                     Button botao = new Button();
                     botao.setPrefSize(42, 42);
@@ -300,60 +299,6 @@ public class MenuController implements Initializable {
             jogadores.getJogador2().setEmbarcacoes(embarcacoes);
         }
     }
-
-    Embarcacao[] verificarNavioDestruido(Jogador jogador, int linha, int coluna) {
-        Embarcacao embarcacoes[] = jogador.getEmbarcacoes();
-        Quadrante posicoes[];
-        Boolean destruido = false;
-        int qntDestruidos = 0;
-        System.out.println("tamanho vetor: " + embarcacoes.length);
-        for (int i = 0; i < embarcacoes.length; i++) {
-            System.out.println("i: " + i);
-            int contador = 0;
-            if (embarcacoes[i] != null) {
-                posicoes = embarcacoes[i].getPosicao();
-
-                for (int j = 0; j < posicoes.length; j++) {
-
-                    System.out.println(embarcacoes[i].getTipo() + " - " + contador);
-                    if (linha == i && coluna == j && !posicoes[j].isAtacado()) {
-                        System.out.println("Entrou no primeiro if");
-                        posicoes[j].setAtacado(true);
-                        contador++;
-                    }
-
-                    if (posicoes[j].isAtacado()) {
-                        System.out.println("Entrou no if is atacado");
-                        contador++;
-                        System.out.println(contador);
-                    }
-
-                    if (contador >= embarcacoes[i].getTamanho()) {
-                        embarcacoes[i].setPosicao(posicoes);
-                        embarcacoes[i] = null;
-                        qntDestruidos++;
-                        destruido = true;
-                    }
-                }
-
-                if (embarcacoes[i] != null)
-                    embarcacoes[i].setPosicao(posicoes);
-            }
-        }
-
-        Embarcacao novasEmbarcacao[] = new Embarcacao[embarcacoes.length - qntDestruidos];
-        int cont = 0;
-        for (int i = 0; i < embarcacoes.length; i++) {
-            if (embarcacoes[i] != null) {
-                novasEmbarcacao[cont++] = embarcacoes[i];
-
-            }
-        }
-        System.out.println(novasEmbarcacao.length);
-        return novasEmbarcacao;
-
-    }
-
     @FXML
     void atacar(ActionEvent event) throws IOException {
 
@@ -387,44 +332,23 @@ public class MenuController implements Initializable {
                     quadrantes[linha][coluna].getPreenchidoPorNavio());
 
             if (!qAlvo.isAtacado()) {
-                Button botao = new Button();
-                botao.setStyle("-fx-background-color: #add8e6");
-                botao.setPrefSize(42, 42);
 
                 quadrantes[linha][coluna].setAtacado(true);
-
                 if (qAlvo.isPreenchidoPorNavio()) {
+                    Button botao = new Button();
                     botao.setStyle("-fx-background-color: red");
                     tabuleiroAtacado.add(botao, coluna, linha);
-                } else {
-                    tabuleiroAtacado.add(botao, coluna, linha);
+                } else
                     mudarTela = true;
-                }
 
-            }
-            if (jogadores.getJogadorDaVez() == 1) {
-                jogadores.getJogador2()
-                        .setEmbarcacoes(verificarNavioDestruido(jogadores.getJogador2(), linha, coluna));
-                System.out.println(
-                        "Tamanho embarcação depois da função: " + jogadores.getJogador2().getEmbarcacoes().length);
-                jogadores.getJogador2().getTabuleiro().setQuadrantes(qAlvo);
-            }
-            if (jogadores.getJogadorDaVez() == 2) {
-                jogadores.getJogador1()
-                        .setEmbarcacoes(verificarNavioDestruido(jogadores.getJogador1(), linha, coluna));
-                jogadores.getJogador1().getTabuleiro().setQuadrantes(qAlvo);
             }
             if (mudarTela) {
                 if (jogadores.getJogadorDaVez() == 1) {
-
                     jogadores.setJogadorDaVez(2);
                     telaMomento = "View/Jogador2Jogar";
-
                 } else {
-
                     jogadores.setJogadorDaVez(1);
                     telaMomento = "View/Jogador1Jogar";
-
                 }
                 App.setRoot(telaMomento);
             }

@@ -40,15 +40,37 @@ public class TabuleiroController {
         this.quadrantes = quadrantes;
     }
 
-    public void verificarSeVenceu(Jogador a) {
-        int contador = 0;
-        Embarcacao embarcacoes[] = a.getEmbarcacoes();
-        for (int i = 0; i < embarcacoes.length; i++)
-            if (embarcacoes[i].isDestruido())
-                contador++;
-
-        if (contador == embarcacoes.length)
-            System.out.println("Jogador " + a.getNome() + " venceu");
+    public Embarcacao[] verificarNavioDestruido(Embarcacao e[]) {
+     
+        Embarcacao novaEmbarcacao[], embarcacoes[] = e;
+        int naviosDestruidos = 0, cont = 0;
+        for (int i = 0; i < embarcacoes.length; i++) {
+            int contador = 0;
+             Quadrante posicoes[]= embarcacoes[i].getPosicao();
+            for (int j = 0; j < posicoes.length; j++) {
+                if ((this.quadrantes[posicoes[j].getX()][posicoes[j].getY()].getAtacado())
+                        ) {
+                    posicoes[j].setAtacado(true);
+                    contador++;
+                }
+            }
+            embarcacoes[i].setPosicao(posicoes);
+            if (contador == embarcacoes[i].getTamanho()) {
+                embarcacoes[i] = null;
+                naviosDestruidos++;
+            }
+        }
+        if (naviosDestruidos > 0) {
+            novaEmbarcacao = new Embarcacao[embarcacoes.length - naviosDestruidos];
+            for(int i = 0; i < embarcacoes.length; i++){
+                if(embarcacoes[i] != null){
+                    novaEmbarcacao[cont] = embarcacoes[i];
+                    cont++;
+                }
+            }
+        }else
+            novaEmbarcacao = embarcacoes;
+        return novaEmbarcacao;
     }
 
     public Embarcacao[] posicionarAleatoriamente(Embarcacao embarcacoes[]) {
@@ -93,9 +115,6 @@ public class TabuleiroController {
             }
         }
         return embarcacoes;
-    }
-
-    void atacarAdversario(Node source, GridPane tabuleiroAtacado) {
     }
 
 }

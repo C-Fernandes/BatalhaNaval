@@ -14,10 +14,14 @@ public class Jogador {
 
     }
 
+    
+
     public Jogador() {
         this.pontuacao = 0;
     }
-
+public void atualizarEmbarcacoes(){
+        this.embarcacoes = tabuleiro.verificarNavioDestruido(embarcacoes);
+    }
     public void posicionarEmbarcacoesAleatoriamente() {
         this.embarcacoes = tabuleiro.posicionarAleatoriamente(this.embarcacoes);
     }
