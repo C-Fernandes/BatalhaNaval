@@ -18,7 +18,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
@@ -348,40 +351,45 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    void atacar(ActionEvent event) throws IOException {
+    void atacar(MouseEvent event) throws IOException {
+        try {
 
-        int linha = 0, coluna = 0;
-        Node source = (Node) event.getSource();
+            int linha = 0, coluna = 0;
+            Node source = (Node) event.getSource();
 
-        if (tabuleiroAtacado.getRowIndex(source) != null)
-            linha = tabuleiroAtacado.getRowIndex(source);
-        if (tabuleiroAtacado.getColumnIndex(source) != null)
-            coluna = tabuleiroAtacado.getColumnIndex(source);
+            if (tabuleiroAtacado.getRowIndex(source) != null)
+                linha = tabuleiroAtacado.getRowIndex(source);
+            if (tabuleiroAtacado.getColumnIndex(source) != null)
+                coluna = tabuleiroAtacado.getColumnIndex(source);
 
-        Quadrante quadrantes[][];
+            Quadrante quadrantes[][];
 
-        if (jogadores.getJogadorDaVez() == 1)
-            quadrantes = jogadores.getJogador2().getTabuleiro().getQuadrantes();
-        else
-            quadrantes = jogadores.getJogador1().getTabuleiro().getQuadrantes();
-        int index = (linha * 10) + coluna;
-        if (!quadrantes[linha][coluna].isAtacado()) {
-            quadrantes[linha][coluna].setAtacado(true);
-            System.out.println("mudou para atacado tabuleiro inimigo");
-            if (quadrantes[linha][coluna].isPreenchidoPorNavio()) {
-                tabuleiroAtacado.getChildren().get(index).setStyle("-fx-background-color: red");
-            } else {
-                if (jogadores.getJogadorDaVez() == 1) {
-                    jogadores.setJogadorDaVez(2);
-                    telaMomento = "View/Jogador2Jogar";
-                    jogadores.getJogador2().getTabuleiro().setQuadrantes(quadrantes);
+            if (jogadores.getJogadorDaVez() == 1)
+                quadrantes = jogadores.getJogador2().getTabuleiro().getQuadrantes();
+            else
+                quadrantes = jogadores.getJogador1().getTabuleiro().getQuadrantes();
+            int index = (linha * 10) + coluna;
+            if (!quadrantes[linha][coluna].isAtacado()) {
+                quadrantes[linha][coluna].setAtacado(true);
+                System.out.println("mudou para atacado tabuleiro inimigo");
+                if (quadrantes[linha][coluna].isPreenchidoPorNavio()) {
+                    ImageView imageView = (ImageView) tabuleiroAtacado.getChildren().get(index);
+                    imageView.setImage(new Image("@../imgs/explosao.png"));
                 } else {
-                    jogadores.setJogadorDaVez(1);
-                    telaMomento = "View/Jogador1Jogar";
-                    jogadores.getJogador1().getTabuleiro().setQuadrantes(quadrantes);
+                    if (jogadores.getJogadorDaVez() == 1) {
+                        jogadores.setJogadorDaVez(2);
+                        telaMomento = "View/Jogador2Jogar";
+                        jogadores.getJogador2().getTabuleiro().setQuadrantes(quadrantes);
+                    } else {
+                        jogadores.setJogadorDaVez(1);
+                        telaMomento = "View/Jogador1Jogar";
+                        jogadores.getJogador1().getTabuleiro().setQuadrantes(quadrantes);
+                    }
+                    App.setRoot(telaMomento);
                 }
-                App.setRoot(telaMomento);
             }
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
