@@ -49,13 +49,13 @@ public class MenuController implements Initializable {
 
     // Atributos FXML:
     @FXML
-    private Button corveta;
+    private ImageView corveta;
     @FXML
-    private Button submarino;
+    private ImageView submarino;
     @FXML
-    private Button fragata;
+    private ImageView fragata;
     @FXML
-    private Button destroyer;
+    private ImageView destroyer;
     @FXML
     private TextField jogador1;
     @FXML
@@ -81,6 +81,8 @@ public class MenuController implements Initializable {
         if (vencedor != null)
             jogadorVencedor.setText(vencedor.getNome());
         else {
+
+            inicializarImgs();
             Quadrante tInimigo[][], tJogador[][];
             Jogador jogador, oponente;
             if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial") {
@@ -129,19 +131,50 @@ public class MenuController implements Initializable {
             submarino.setOpacity(opacidade);
     }
 
+    void inicializarImgs() {
+        if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial") {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    int index = (i * 10) + j;
+                    ImageView imageView;
+                    imageView = (ImageView) tabuleiroDoJogador.getChildren().get(index);
+                    Image img = new Image(getClass().getResourceAsStream("/br/com/imd/imgs/fundo-do-mar.png"));
+                    imageView.setImage(img);
+                    if (telaMomento != "View/setupJogador1" && telaMomento != "View/setupJogador2") {
+                        imageView = (ImageView) tabuleiroAtacado.getChildren().get(index);
+                        imageView.setImage(img);
+
+                    }
+                }
+            }
+            corveta.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/corveta.png")));
+            destroyer.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/destroyer.png")));
+            fragata.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/fragata.png")));
+            submarino.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/submarino.png")));
+        }
+    }
+
     void mostrarQuadrantesAtacados(Quadrante tJogador[][], Quadrante tInimigo[][]) {
+        Image destruido = new Image(getClass().getResourceAsStream("/br/com/imd/imgs/explosao.jpeg"));
+        Image splash = new Image(getClass().getResourceAsStream("/br/com/imd/imgs/splash.png"));
+
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 int index = (i * 10) + j;
                 if (tJogador[i][j].isAtacado()) {
-                    tabuleiroDoJogador.getChildren().get(index).setStyle("-fx-background-color: purple");
-                    if (tJogador[i][j].isPreenchidoPorNavio())
-                        tabuleiroDoJogador.getChildren().get(index).setStyle("-fx-background-color: red");
+                    ImageView imageView = (ImageView) tabuleiroDoJogador.getChildren().get(index);
+                    imageView.setImage(splash);
+                    if (tJogador[i][j].isPreenchidoPorNavio()) {
+                        imageView.setImage(destruido);
+
+                    }
                 }
                 if (tInimigo[i][j].isAtacado()) {
-                    tabuleiroAtacado.getChildren().get(index).setStyle("-fx-background-color: purple");
-                    if (tInimigo[i][j].isPreenchidoPorNavio())
-                        tabuleiroAtacado.getChildren().get(index).setStyle("-fx-background-color: red");
+                    ImageView imageView = (ImageView) tabuleiroAtacado.getChildren().get(index);
+                    imageView.setImage(splash);
+                    if (tInimigo[i][j].isPreenchidoPorNavio()) {
+                        imageView.setImage(destruido);
+                    }
                 }
             }
         }
@@ -191,83 +224,6 @@ public class MenuController implements Initializable {
         jogadores.getJogador2().setNome(jogador2.getText());
         jogadores.getJogador1().posicionarEmbarcacoesAleatoriamente();
         jogadores.getJogador2().posicionarEmbarcacoesAleatoriamente();
-    }
-
-    // Funções Scenner Builder:
-
-    @FXML
-    void visualizar() {
-        Jogador jogadorDaVez = new Jogador();
-        if (jogadores.getJogadorDaVez() == 1) {
-            jogadores.getJogador1().setMostrarNavios();
-            jogadorDaVez = jogadores.getJogador1();
-            System.out.println(jogadores.getJogador1().isMostrarNavios());
-        }
-        if (jogadores.getJogadorDaVez() == 2) {
-            jogadores.getJogador2().setMostrarNavios();
-            jogadorDaVez = jogadores.getJogador2();
-            System.out.println(jogadores.getJogador2().isMostrarNavios());
-        }
-        esconderMostrarNavios(jogadorDaVez.getMostrarNavios());
-    }
-
-    @FXML
-    void jogar(ActionEvent event) throws IOException {
-        try {
-            telaMomento = "View/cadastroUsuario";
-            App.setRoot(telaMomento);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    @FXML
-    void cadastrarUsuarios(ActionEvent event) throws IOException {
-        criarJogadores();
-        telaMomento = "View/setupJogador1";
-        App.setRoot("View/setupJogador1");
-    }
-
-    @FXML
-    void setupJogador2(ActionEvent event) throws IOException {
-        try {
-            jogadores.setJogadorDaVez(2);
-            System.out.println(jogadores.getJogador2().getNome());
-            telaMomento = "View/setupJogador2";
-            App.setRoot(telaMomento);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    @FXML
-    void iniciarJogo(ActionEvent event) throws IOException {
-        jogadores.setJogadorDaVez(1);
-        try {
-            telaMomento = "View/Jogador1Jogar";
-            App.setRoot(telaMomento);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @FXML
-    void moverFragata(ActionEvent event) throws IOException {
-    }
-
-    @FXML
-    void moverSubmarino(ActionEvent event) throws IOException {
-    }
-
-    @FXML
-    void moverCorveta(ActionEvent event) throws IOException {
-    }
-
-    @FXML
-    void clicado(ActionEvent e) throws IOException {
-        if (moverDestroyer)
-            moverDestroyer(e);
     }
 
     boolean moverEmbarcacao(Embarcacao embarcacao, int linha, int coluna) {
@@ -350,6 +306,81 @@ public class MenuController implements Initializable {
         }
     }
 
+    // Funções Scenner Builder:
+
+    @FXML
+    void visualizar() {
+        Jogador jogadorDaVez = new Jogador();
+        if (jogadores.getJogadorDaVez() == 1) {
+            jogadores.getJogador1().setMostrarNavios();
+            jogadorDaVez = jogadores.getJogador1();
+        }
+        if (jogadores.getJogadorDaVez() == 2) {
+            jogadores.getJogador2().setMostrarNavios();
+            jogadorDaVez = jogadores.getJogador2();
+        }
+        esconderMostrarNavios(jogadorDaVez.getMostrarNavios());
+    }
+
+    @FXML
+    void jogar(ActionEvent event) throws IOException {
+        try {
+            telaMomento = "View/cadastroUsuario";
+            App.setRoot(telaMomento);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    @FXML
+    void cadastrarUsuarios(ActionEvent event) throws IOException {
+        criarJogadores();
+        telaMomento = "View/setupJogador1";
+        App.setRoot("View/setupJogador1");
+    }
+
+    @FXML
+    void setupJogador2(ActionEvent event) throws IOException {
+        try {
+            jogadores.setJogadorDaVez(2);
+            System.out.println(jogadores.getJogador2().getNome());
+            telaMomento = "View/setupJogador2";
+            App.setRoot(telaMomento);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    @FXML
+    void iniciarJogo(ActionEvent event) throws IOException {
+        jogadores.setJogadorDaVez(1);
+        try {
+            telaMomento = "View/Jogador1Jogar";
+            App.setRoot(telaMomento);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    void moverFragata(MouseEvent event) throws IOException {
+    }
+
+    @FXML
+    void moverSubmarino(MouseEvent event) throws IOException {
+    }
+
+    @FXML
+    void moverCorveta(MouseEvent event) throws IOException {
+    }
+
+    @FXML
+    void clicado(MouseEvent e) throws IOException {
+        if (moverDestroyer)
+            moverDestroyer(e);
+    }
+
     @FXML
     void atacar(MouseEvent event) throws IOException {
         try {
@@ -374,7 +405,7 @@ public class MenuController implements Initializable {
                 System.out.println("mudou para atacado tabuleiro inimigo");
                 if (quadrantes[linha][coluna].isPreenchidoPorNavio()) {
                     ImageView imageView = (ImageView) tabuleiroAtacado.getChildren().get(index);
-                    imageView.setImage(new Image("@../imgs/explosao.png"));
+                    imageView.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/explosao.jpeg")));
                 } else {
                     if (jogadores.getJogadorDaVez() == 1) {
                         jogadores.setJogadorDaVez(2);
@@ -389,12 +420,13 @@ public class MenuController implements Initializable {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Aqui");
+            e.printStackTrace();
         }
     }
 
     @FXML
-    void moverDestroyer(ActionEvent event) throws IOException {
+    void moverDestroyer(MouseEvent event) throws IOException {
 
         try {
             destroyer.setOnMouseClicked(ee -> {

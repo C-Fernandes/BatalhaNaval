@@ -3,20 +3,12 @@ package br.com.imd.Controller;
 import java.io.IOException;
 
 import br.com.imd.Model.Embarcacao;
-import br.com.imd.Model.Jogador;
 import br.com.imd.Model.Quadrante;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.GridPane;
 import java.util.Random;
 
 public class TabuleiroController {
 
     private Quadrante[][] quadrantes;
-    private boolean moverDestroyer = false;
 
     public TabuleiroController() {
         this.quadrantes = new Quadrante[10][10];
@@ -41,15 +33,14 @@ public class TabuleiroController {
     }
 
     public Embarcacao[] verificarNavioDestruido(Embarcacao e[]) {
-     
+
         Embarcacao novaEmbarcacao[], embarcacoes[] = e;
         int naviosDestruidos = 0, cont = 0;
         for (int i = 0; i < embarcacoes.length; i++) {
             int contador = 0;
-             Quadrante posicoes[]= embarcacoes[i].getPosicao();
+            Quadrante posicoes[] = embarcacoes[i].getPosicao();
             for (int j = 0; j < posicoes.length; j++) {
-                if ((this.quadrantes[posicoes[j].getX()][posicoes[j].getY()].getAtacado())
-                        ) {
+                if ((this.quadrantes[posicoes[j].getX()][posicoes[j].getY()].getAtacado())) {
                     posicoes[j].setAtacado(true);
                     contador++;
                 }
@@ -62,13 +53,13 @@ public class TabuleiroController {
         }
         if (naviosDestruidos > 0) {
             novaEmbarcacao = new Embarcacao[embarcacoes.length - naviosDestruidos];
-            for(int i = 0; i < embarcacoes.length; i++){
-                if(embarcacoes[i] != null){
+            for (int i = 0; i < embarcacoes.length; i++) {
+                if (embarcacoes[i] != null) {
                     novaEmbarcacao[cont] = embarcacoes[i];
                     cont++;
                 }
             }
-        }else
+        } else
             novaEmbarcacao = embarcacoes;
         return novaEmbarcacao;
     }
@@ -84,7 +75,7 @@ public class TabuleiroController {
                 if (xAleatorio >= 0 && xAleatorio <= 9 && yAleatorio < (9 - embarcacoes[i].getTamanho()) + 1) {
                     boolean livre = true;
                     for (int k = yAleatorio; k < (9 - embarcacoes[i].getTamanho()) + 1; k++)
-                        if (quadrantes[xAleatorio][yAleatorio].getPreenchidoPorNavio())
+                        if (quadrantes[xAleatorio][k].getPreenchidoPorNavio())
                             livre = false;
 
                     if (livre) {
