@@ -24,12 +24,9 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
 
         try {
-            ImageView imageView = new ImageView();
-            // Image gif = new Image("/src/main/java/br/com/imd/Controller/gifnavio.gif");
-            // imageView.setImage(gif);
 
             this.menuController = MenuController.getInstancia();
-            scene = new Scene(loadFXML("View/menu-inicial"), 1000, 650);
+            scene = new Scene(loadFXML("View/menu-inicial"), 800, 600);
             stage.setTitle("Batalha Naval");
             stage.setScene(scene);
             stage.setResizable(false);

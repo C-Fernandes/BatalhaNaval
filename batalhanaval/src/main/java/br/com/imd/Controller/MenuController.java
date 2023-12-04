@@ -10,10 +10,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -24,14 +28,17 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MenuController implements Initializable {
     private static MenuController instancia;
     JogadorController jogadores;
     String telaMomento;
     Jogador vencedor;
+    Boolean verificador = true;
 
-    boolean moverDestroyer = false;
+    boolean moverDestroyer = false, moverCorveta = false, moverFragata = false, moverSubmarino = false;
 
     // FUNÇÃO MAIS IMPORTANTE, NÃO MEXER!
     public static MenuController getInstancia() {
@@ -71,21 +78,34 @@ public class MenuController implements Initializable {
     @FXML
     private Label j2;
     @FXML
+    private Label paragrafo1;
+    @FXML
+    private Label paragrafo2;
+    @FXML
     private Label ataque;
-
     @FXML
     private CheckBox vNavios;
+    @FXML
+    private Button sairBotao;
+
+    @FXML
+    private Label mensagem;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         if (vencedor != null)
             jogadorVencedor.setText(vencedor.getNome());
         else {
-
+            if (telaMomento == "View/comoJogar") {
+                paragrafo1.setText("Batalha naval é um jogo onde dois jogadores disspoem  de\n" +
+                        "u");
+                paragrafo2.setText("texto \n texto \n texto");
+            }
             inicializarImgs();
             Quadrante tInimigo[][], tJogador[][];
             Jogador jogador, oponente;
-            if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial") {
+            if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial"
+                    && telaMomento != "View/comoJogar") {
                 if (jogadores.getJogadorDaVez() == 1) {
                     jogador = jogadores.getJogador1();
                     oponente = jogadores.getJogador2();
@@ -101,6 +121,8 @@ public class MenuController implements Initializable {
                 if (telaMomento != "View/setupJogador1")
                     j2.setText(jogadores.getJogador2().getNome());
                 if (telaMomento != "View/setupJogador1" && telaMomento != "View/setupJogador2") {
+                    verificador = true;
+                    mensagem.setOpacity(0);
                     jogador.atualizarEmbarcacoes();
                     vNavios.setSelected(jogador.getMostrarNavios());
                     ataque.setText(jogador.getNome() + ", ataque!");
@@ -132,7 +154,8 @@ public class MenuController implements Initializable {
     }
 
     void inicializarImgs() {
-        if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial") {
+        if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial"
+                && telaMomento != "View/comoJogar") {
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < 10; j++) {
                     int index = (i * 10) + j;
@@ -218,14 +241,6 @@ public class MenuController implements Initializable {
             tabuleiroDoJogador.getChildren().remove(submarino);
     }
 
-    void criarJogadores() {
-        jogadores.setJogadorDaVez(1);
-        jogadores.getJogador1().setNome(jogador1.getText());
-        jogadores.getJogador2().setNome(jogador2.getText());
-        jogadores.getJogador1().posicionarEmbarcacoesAleatoriamente();
-        jogadores.getJogador2().posicionarEmbarcacoesAleatoriamente();
-    }
-
     boolean moverEmbarcacao(Embarcacao embarcacao, int linha, int coluna) {
         Jogador jogadorDaVez;
         if (jogadores.getJogadorDaVez() == 1)
@@ -265,47 +280,6 @@ public class MenuController implements Initializable {
         }
     }
 
-    void atualizarEmbarcacoes(Embarcacao embarcacao) {
-        Embarcacao embarcacoes[];
-        if (jogadores.getJogadorDaVez() == 1)
-            embarcacoes = jogadores.getJogador1().getEmbarcacoes();
-        else
-            embarcacoes = jogadores.getJogador2().getEmbarcacoes();
-
-        for (int i = 0; i < embarcacoes.length; i++) {
-            if (embarcacoes[i].getTipo() == EmbarcacaoENUM.DESTROYER
-                    && embarcacao.getTipo() == EmbarcacaoENUM.DESTROYER) {
-                embarcacoes[i] = embarcacao;
-            }
-        }
-        Quadrante novoTabuleiro[][] = new Quadrante[10][10];
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                novoTabuleiro[i][j] = new Quadrante(i, j);
-            }
-        }
-        Quadrante posicao[];
-        for (int i = 0; i < 4; i++) {
-            posicao = embarcacoes[i].getPosicao();
-            System.out.println("Posicao tamanho - " + posicao.length);
-
-            for (int j = 0; j < posicao.length; j++) {
-                System.out.println("J: " + j);
-                System.out.println(posicao[j].getX());
-                System.out.println(posicao[j].getY());
-                novoTabuleiro[posicao[j].getX()][posicao[j].getY()].setPreenchidoPorNavio(true);
-            }
-
-        }
-        if (jogadores.getJogadorDaVez() == 1) {
-            jogadores.getJogador1().getTabuleiro().setQuadrantes(novoTabuleiro);
-            jogadores.getJogador1().setEmbarcacoes(embarcacoes);
-        } else {
-            jogadores.getJogador2().getTabuleiro().setQuadrantes(novoTabuleiro);
-            jogadores.getJogador2().setEmbarcacoes(embarcacoes);
-        }
-    }
-
     // Funções Scenner Builder:
 
     @FXML
@@ -333,8 +307,38 @@ public class MenuController implements Initializable {
     }
 
     @FXML
+    void comoJogar(ActionEvent event) throws IOException {
+        try {
+            telaMomento = "View/comoJogar";
+            App.setRoot(telaMomento);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void sairDoJogo(ActionEvent event) throws IOException {
+        try {
+            Stage stage = (Stage) sairBotao.getScene().getWindow();
+            stage.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    @FXML
+    void voltarMenuInicial(ActionEvent event) throws IOException {
+        try {
+            telaMomento = "View/menu-inicial";
+            App.setRoot(telaMomento);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     void cadastrarUsuarios(ActionEvent event) throws IOException {
-        criarJogadores();
+        jogadores.criarJogadores(jogador1.getText(), jogador2.getText());
         telaMomento = "View/setupJogador1";
         App.setRoot("View/setupJogador1");
     }
@@ -365,48 +369,167 @@ public class MenuController implements Initializable {
 
     @FXML
     void moverFragata(MouseEvent event) throws IOException {
+        if (event.getButton() == MouseButton.SECONDARY) {
+            jogadores.rotacionarEmbarcacao(EmbarcacaoENUM.FRAGATA);
+        }
+
+        if (!moverFragata) {
+            moverFragata = true;
+        } else {
+            int linha = 0, coluna = 0;
+            Node source = (Node) event.getSource();
+
+            if (tabuleiroDoJogador.getRowIndex(source) != null)
+                linha = tabuleiroDoJogador.getRowIndex(source);
+
+            if (tabuleiroDoJogador.getColumnIndex(source) != null)
+                coluna = tabuleiroDoJogador.getColumnIndex(source);
+
+            moverFragata = jogadores.moverEmbarcacoes(EmbarcacaoENUM.FRAGATA, linha, coluna);
+            if (moverFragata) {
+                tabuleiroDoJogador.setColumnIndex(fragata, coluna);
+                tabuleiroDoJogador.setRowIndex(fragata, linha); //
+            }
+            moverFragata = false;
+
+        }
     }
 
     @FXML
     void moverSubmarino(MouseEvent event) throws IOException {
+        if (event.getButton() == MouseButton.SECONDARY) {
+            jogadores.rotacionarEmbarcacao(EmbarcacaoENUM.SUBMARINO);
+        }
+
+        if (!moverSubmarino) {
+            moverSubmarino = true;
+        } else {
+            int linha = 0, coluna = 0;
+            Node source = (Node) event.getSource();
+
+            if (tabuleiroDoJogador.getRowIndex(source) != null)
+                linha = tabuleiroDoJogador.getRowIndex(source);
+
+            if (tabuleiroDoJogador.getColumnIndex(source) != null)
+                coluna = tabuleiroDoJogador.getColumnIndex(source);
+
+            moverSubmarino = jogadores.moverEmbarcacoes(EmbarcacaoENUM.SUBMARINO, linha, coluna);
+            if (moverSubmarino) {
+                tabuleiroDoJogador.setColumnIndex(submarino, coluna);
+                tabuleiroDoJogador.setRowIndex(submarino, linha); //
+            }
+            moverSubmarino = false;
+
+        }
     }
 
     @FXML
     void moverCorveta(MouseEvent event) throws IOException {
+        if (event.getButton() == MouseButton.SECONDARY) {
+            jogadores.rotacionarEmbarcacao(EmbarcacaoENUM.CORVETA);
+        }
+
+        if (!moverCorveta) {
+            moverCorveta = true;
+        } else {
+            int linha = 0, coluna = 0;
+            Node source = (Node) event.getSource();
+
+            if (tabuleiroDoJogador.getRowIndex(source) != null)
+                linha = tabuleiroDoJogador.getRowIndex(source);
+
+            if (tabuleiroDoJogador.getColumnIndex(source) != null)
+                coluna = tabuleiroDoJogador.getColumnIndex(source);
+
+            moverCorveta = jogadores.moverEmbarcacoes(EmbarcacaoENUM.CORVETA, linha, coluna);
+            if (moverCorveta) {
+                tabuleiroDoJogador.setColumnIndex(corveta, coluna);
+                tabuleiroDoJogador.setRowIndex(corveta, linha); //
+            }
+            moverCorveta = false;
+
+        }
     }
 
     @FXML
     void clicado(MouseEvent e) throws IOException {
+        System.out.println("Entrou clicado");
+
+        if (moverCorveta)
+            moverCorveta(e);
         if (moverDestroyer)
             moverDestroyer(e);
+        if (moverFragata)
+            moverFragata(e);
+        if (moverSubmarino)
+            moverSubmarino(e);
+
     }
 
     @FXML
-    void atacar(MouseEvent event) throws IOException {
-        try {
+    void moverDestroyer(MouseEvent event) throws IOException {
+        System.out.println("Entrou moverDestroyer");
+
+        if (event.getButton() == MouseButton.SECONDARY) {
+            jogadores.rotacionarEmbarcacao(EmbarcacaoENUM.DESTROYER);
+        }
+        if (!moverDestroyer) {
+            moverDestroyer = true;
+        } else {
+            int linha = 0, coluna = 0;
+            Node source = (Node) event.getSource();
+
+            if (tabuleiroDoJogador.getRowIndex(source) != null)
+                linha = tabuleiroDoJogador.getRowIndex(source);
+
+            if (tabuleiroDoJogador.getColumnIndex(source) != null)
+                coluna = tabuleiroDoJogador.getColumnIndex(source);
+
+            moverDestroyer = jogadores.moverEmbarcacoes(EmbarcacaoENUM.DESTROYER, linha, coluna);
+
+            if (moverDestroyer) {
+                tabuleiroDoJogador.setColumnIndex(destroyer, coluna);
+                tabuleiroAtacado.setRowIndex(destroyer, linha); //
+            }
+            moverDestroyer = false;
+
+        }
+
+    }
+
+    @FXML
+    void atacar(MouseEvent event) {
+        if (verificador) {
 
             int linha = 0, coluna = 0;
             Node source = (Node) event.getSource();
+            Quadrante quadrantes[][];
 
             if (tabuleiroAtacado.getRowIndex(source) != null)
                 linha = tabuleiroAtacado.getRowIndex(source);
             if (tabuleiroAtacado.getColumnIndex(source) != null)
                 coluna = tabuleiroAtacado.getColumnIndex(source);
 
-            Quadrante quadrantes[][];
-
             if (jogadores.getJogadorDaVez() == 1)
                 quadrantes = jogadores.getJogador2().getTabuleiro().getQuadrantes();
             else
                 quadrantes = jogadores.getJogador1().getTabuleiro().getQuadrantes();
+
             int index = (linha * 10) + coluna;
+
             if (!quadrantes[linha][coluna].isAtacado()) {
                 quadrantes[linha][coluna].setAtacado(true);
                 System.out.println("mudou para atacado tabuleiro inimigo");
+                ImageView imageView = (ImageView) tabuleiroAtacado.getChildren().get(index);
+
                 if (quadrantes[linha][coluna].isPreenchidoPorNavio()) {
-                    ImageView imageView = (ImageView) tabuleiroAtacado.getChildren().get(index);
                     imageView.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/explosao.jpeg")));
+                    mensagem.setOpacity(1);
+                    mensagem.setText("Você acertou o navio inimigo,\ncontinue atacando!");
                 } else {
+                    imageView.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/splash.png")));
+                    mensagem.setOpacity(1);
+                    mensagem.setText("Você acertou a água,\nvez do próximo jogador");
                     if (jogadores.getJogadorDaVez() == 1) {
                         jogadores.setJogadorDaVez(2);
                         telaMomento = "View/Jogador2Jogar";
@@ -416,64 +539,19 @@ public class MenuController implements Initializable {
                         telaMomento = "View/Jogador1Jogar";
                         jogadores.getJogador1().getTabuleiro().setQuadrantes(quadrantes);
                     }
-                    App.setRoot(telaMomento);
+                    verificador = false;
+
+                    PauseTransition pause = new PauseTransition(Duration.seconds(5));
+                    pause.setOnFinished(e -> {
+                        try {
+                            App.setRoot(telaMomento);
+                        } catch (IOException ee) {
+                            ee.printStackTrace();
+                        }
+                    });
+                    pause.play();
                 }
             }
-        } catch (Exception e) {
-            System.out.println("Aqui");
-            e.printStackTrace();
         }
     }
-
-    @FXML
-    void moverDestroyer(MouseEvent event) throws IOException {
-
-        try {
-            destroyer.setOnMouseClicked(ee -> {
-                if (ee.getButton() == MouseButton.SECONDARY) {
-                }
-                // rotacionarDestroyer();
-            });
-            destroyer.getOnMouseClicked();
-            System.out.println("Mover Destroyer antess: " + moverDestroyer);
-            if (moverDestroyer == false) {
-                moverDestroyer = true;
-            } else {
-                moverDestroyer = false;
-                boolean podeMover = true;
-                int linha = 0, coluna = 0;
-                Node source = (Node) event.getSource();
-                if (tabuleiroDoJogador.getRowIndex(source) != null)
-                    linha = tabuleiroDoJogador.getRowIndex(source);
-
-                if (tabuleiroDoJogador.getColumnIndex(source) != null)
-                    coluna = tabuleiroDoJogador.getColumnIndex(source);
-
-                System.out.println(coluna);
-                System.out.println(linha);
-                Embarcacao embarcacao;
-                if (jogadores.getJogadorDaVez() == 1) {
-                    podeMover = moverEmbarcacao(jogadores.getJogador1().getDestroyer(), linha, coluna);
-                    embarcacao = jogadores.getJogador1().getDestroyer();
-                } else {
-                    podeMover = moverEmbarcacao(jogadores.getJogador2().getDestroyer(), linha, coluna);
-                    embarcacao = jogadores.getJogador2().getDestroyer();
-                }
-                System.out.println("pode mover: " + podeMover);
-
-                if (podeMover) {
-                    atualizarEmbarcacoes(embarcacao);
-
-                    tabuleiroDoJogador.setColumnIndex(destroyer, coluna);
-                    tabuleiroAtacado.setRowIndex(destroyer, linha); //
-                }
-
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-    }
-
 }

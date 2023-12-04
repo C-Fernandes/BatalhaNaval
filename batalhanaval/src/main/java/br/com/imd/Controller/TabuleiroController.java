@@ -96,9 +96,6 @@ public class TabuleiroController {
                             System.out.println(e);
                         }
 
-                        System.out.println("Embarcacao: " + embarcacoes[i].getTipo());
-                        System.out.println("linha - coluna: " + xAleatorio + " - " + yAleatorio);
-
                         embarcacoes[i].setPosicao(posicaoEmbarcacao);
                         break;
                     }
