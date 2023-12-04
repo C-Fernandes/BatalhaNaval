@@ -1,7 +1,4 @@
 package br.com.imd.Controller;
-
-import java.io.IOException;
-
 import br.com.imd.Model.Embarcacao;
 import br.com.imd.Model.Quadrante;
 import java.util.Random;

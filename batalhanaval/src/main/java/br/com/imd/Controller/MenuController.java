@@ -516,7 +516,14 @@ public class MenuController implements Initializable {
                 quadrantes = jogadores.getJogador1().getTabuleiro().getQuadrantes();
 
             int index = (linha * 10) + coluna;
-
+            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            pause.setOnFinished(e -> {
+                try {
+                    App.setRoot(telaMomento);
+                } catch (IOException ee) {
+                    ee.printStackTrace();
+                }
+            });
             if (!quadrantes[linha][coluna].isAtacado()) {
                 quadrantes[linha][coluna].setAtacado(true);
                 System.out.println("mudou para atacado tabuleiro inimigo");
@@ -526,6 +533,13 @@ public class MenuController implements Initializable {
                     imageView.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/explosao.jpeg")));
                     mensagem.setOpacity(1);
                     mensagem.setText("Você acertou o navio inimigo,\ncontinue atacando!");
+                    if (jogadores.verificarVencedor()) {
+                        telaMomento = "View/telaEncerramento";
+                            mensagem.setText("Parabéns,\nvocê venceu!");
+                         verificador = false;
+                        pause.play();
+                    }
+
                 } else {
                     imageView.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/splash.png")));
                     mensagem.setOpacity(1);
@@ -540,15 +554,6 @@ public class MenuController implements Initializable {
                         jogadores.getJogador1().getTabuleiro().setQuadrantes(quadrantes);
                     }
                     verificador = false;
-
-                    PauseTransition pause = new PauseTransition(Duration.seconds(5));
-                    pause.setOnFinished(e -> {
-                        try {
-                            App.setRoot(telaMomento);
-                        } catch (IOException ee) {
-                            ee.printStackTrace();
-                        }
-                    });
                     pause.play();
                 }
             }

@@ -4,11 +4,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
-import java.io.IOException;
+import java.io.IOException;import java.net.URL;
 
 import br.com.imd.Controller.MenuController;
 
@@ -24,7 +25,6 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
 
         try {
-
             this.menuController = MenuController.getInstancia();
             scene = new Scene(loadFXML("View/menu-inicial"), 800, 600);
             stage.setTitle("Batalha Naval");
@@ -51,5 +51,4 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
-
 }

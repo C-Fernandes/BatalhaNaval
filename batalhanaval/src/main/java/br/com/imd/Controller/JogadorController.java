@@ -23,6 +23,23 @@ public class JogadorController {
         jogador2.posicionarEmbarcacoesAleatoriamente();
     }
 
+    public Boolean verificarVencedor() {
+        System.out.println("Entrou em verificar vencedor");
+        if (jogadorDaVez == 1) {
+            jogador2.atualizarEmbarcacoes();
+            System.out.println(jogador2.getEmbarcacoes().length );
+            if (jogador2.getEmbarcacoes().length == 0)
+                return true;
+        } else {
+            jogador1.atualizarEmbarcacoes();
+             System.out.println(jogador1.getEmbarcacoes().length );
+            if (jogador1.getEmbarcacoes().length == 0)
+                return true;
+        }
+        return false;
+
+    }
+
     public JogadorController(String jogador1, String jogador2) {
         this.jogador1 = new Jogador(jogador1);
         this.jogador2 = new Jogador(jogador2);
