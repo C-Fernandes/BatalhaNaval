@@ -1,4 +1,5 @@
 package br.com.imd.Controller;
+
 import br.com.imd.Model.Embarcacao;
 import br.com.imd.Model.Quadrante;
 import java.util.Random;
@@ -9,11 +10,9 @@ public class TabuleiroController {
 
     public TabuleiroController() {
         this.quadrantes = new Quadrante[10][10];
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < 10; i++)
+            for (int j = 0; j < 10; j++)
                 quadrantes[i][j] = new Quadrante(i, j);
-            }
-        }
 
     }
 
@@ -22,7 +21,7 @@ public class TabuleiroController {
     }
 
     public void setQuadrantes(Quadrante quadrante) {
-        this.quadrantes[quadrante.getX()][quadrante.getY()] = quadrante;
+        this.quadrantes[quadrante.getLinha()][quadrante.getColuna()] = quadrante;
     }
 
     public void setQuadrantes(Quadrante[][] quadrantes) {
@@ -37,7 +36,7 @@ public class TabuleiroController {
             int contador = 0;
             Quadrante posicoes[] = embarcacoes[i].getPosicao();
             for (int j = 0; j < posicoes.length; j++) {
-                if ((this.quadrantes[posicoes[j].getX()][posicoes[j].getY()].getAtacado())) {
+                if ((this.quadrantes[posicoes[j].getLinha()][posicoes[j].getColuna()].getAtacado())) {
                     posicoes[j].setAtacado(true);
                     contador++;
                 }
@@ -68,23 +67,24 @@ public class TabuleiroController {
             while (true) {
                 int contador = 0;
                 Random numAleatorio = new Random();
-                int xAleatorio = numAleatorio.nextInt(10), yAleatorio = numAleatorio.nextInt(10);
-                if (xAleatorio >= 0 && xAleatorio <= 9 && yAleatorio < (9 - embarcacoes[i].getTamanho()) + 1) {
+                int linhaAleatoria = numAleatorio.nextInt(10), colunaAleatoria = numAleatorio.nextInt(10);
+                if (linhaAleatoria >= 0 && linhaAleatoria <= 9
+                        && colunaAleatoria < (9 - embarcacoes[i].getTamanho()) + 1) {
                     boolean livre = true;
-                    for (int k = yAleatorio; k < (9 - embarcacoes[i].getTamanho()) + 1; k++)
-                        if (quadrantes[xAleatorio][k].getPreenchidoPorNavio())
+                    for (int k = colunaAleatoria; k < (9 - embarcacoes[i].getTamanho()) + 1; k++)
+                        if (quadrantes[linhaAleatoria][k].getPreenchidoPorNavio())
                             livre = false;
 
                     if (livre) {
-                        System.out.println("x :" + xAleatorio);
+                        System.out.println("x :" + linhaAleatoria);
                         Quadrante posicaoEmbarcacao[] = new Quadrante[embarcacoes[i].getTamanho()];
 
                         System.out.println(embarcacoes[i].getTamanho());
                         try {
-                            for (int j = yAleatorio; j < yAleatorio + (embarcacoes[i].getTamanho()); j++) {
-                                this.quadrantes[xAleatorio][j].setPreenchidoPorNavio(true);
+                            for (int j = colunaAleatoria; j < colunaAleatoria + (embarcacoes[i].getTamanho()); j++) {
+                                this.quadrantes[linhaAleatoria][j].setPreenchidoPorNavio(true);
                                 System.out.println("j:" + j + " Contador: " + contador);
-                                posicaoEmbarcacao[contador] = quadrantes[xAleatorio][j];
+                                posicaoEmbarcacao[contador] = quadrantes[linhaAleatoria][j];
                                 contador++;
                                 System.out.println("y:" + j + " Contador: " + contador);
 

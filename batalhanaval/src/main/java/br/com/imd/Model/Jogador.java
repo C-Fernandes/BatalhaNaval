@@ -33,9 +33,6 @@ public class Jogador {
         for (int i = 0; i < embarcacos.length; i++) {
             if (navio == embarcacos[i].getTipo()) {
                 posicoes = embarcacos[i].getPosicao();
-                for (int t = 0; t < posicoes.length; t++)
-                    quadrantes[posicoes[t].getX()][posicoes[t].getY()].setPreenchidoPorNavio(false);
-
                 if (!embarcacos[i].getEhVertical()) {
                     if (coluna + embarcacos[i].getTamanho() <= 10) {
                         for (int j = coluna; j < coluna + embarcacos[i].getTamanho(); j++) {
@@ -43,6 +40,9 @@ public class Jogador {
                                 podeMover = false;
                         }
                         if (podeMover) {
+                            for (int t = 0; t < posicoes.length; t++)
+                                quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
+                                        .setPreenchidoPorNavio(false);
                             for (int j = coluna; j < coluna + embarcacos[i].getTamanho(); j++) {
                                 posicoes[contador] = quadrantes[linha][j];
                                 contador++;
@@ -62,6 +62,10 @@ public class Jogador {
                                 return false;
                         }
                         if (podeMover) {
+                            for (int t = 0; t < posicoes.length; t++)
+                                quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
+                                        .setPreenchidoPorNavio(false);
+
                             for (int j = linha; j < linha + embarcacos[i].getTamanho(); j++) {
                                 posicoes[contador] = quadrantes[j][coluna];
                                 contador++;
@@ -82,16 +86,85 @@ public class Jogador {
 
     }
 
-    public void rotacionarEmbarcacao(EmbarcacaoENUM navio) {
+    public int rotacionarEmbarcacao(EmbarcacaoENUM navio) {
+        int podeMover = 1;
+        int contador = 1;
+        Quadrante quadrantes[][] = tabuleiro.getQuadrantes();
+        for (int i = 0; i < embarcacoes.length; i++) {
+            if (navio == embarcacoes[i].getTipo()) {
+                Quadrante posicoes[] = embarcacoes[i].getPosicao();
+                if (embarcacoes[i].getEhVertical()) {
+                    System.out.println("Era vertical");
+                    if (posicoes[0].getColuna() + embarcacoes[i].getTamanho() <= 10) {
+                        System.out.println("Entrou no if");
+                        for (int j = posicoes[0].getColuna(); j < posicoes[0].getColuna()
+                                + embarcacoes[i].getTamanho(); j++) {
+                            if (quadrantes[posicoes[0].getColuna()][j].getPreenchidoPorNavio()) {
+                                System.out.println("");
+                                return 0;
 
-        if (navio == EmbarcacaoENUM.DESTROYER) {
+                            }
+                        }
+                        if (podeMover != 0) {
+                            System.out.println("Entrou no if pode mover");
+                            for (int t = 1; t < posicoes.length; t++) {
+                                quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
+                                        .setPreenchidoPorNavio(false);
+                                System.out.println("Coluna e linha liberados: " + posicoes[t].getLinha() + " - "
+                                        + posicoes[t].getColuna());
+                            }
+                            for (int j = posicoes[0].getColuna() + 1; j < posicoes[0].getColuna()
+                                    + embarcacoes[i].getTamanho(); j++) {
+                                posicoes[contador] = quadrantes[posicoes[0].getLinha()][j];
+                                contador++;
+                                quadrantes[posicoes[0].getLinha()][j].setPreenchidoPorNavio(true);
+                            }
+                            tabuleiro.setQuadrantes(quadrantes);
+                            this.embarcacoes[i].setEhVertical(false);
+                            this.embarcacoes[i].setPosicao(posicoes);
+                            return podeMover = 1;
+                        }
+
+                    } else {
+                        return 0;
+                    }
+                } else {
+                    System.out.println("Era horizontal");
+                    if (posicoes[0].getLinha() + embarcacoes[i].getTamanho() <= 10) {
+                        System.out.println("Entrou no if");
+                        for (int j = posicoes[0].getLinha(); j < posicoes[0].getLinha()
+                                + embarcacoes[i].getTamanho(); j++) {
+                            if (quadrantes[posicoes[0].getLinha() + 1][j].getPreenchidoPorNavio()) {
+                                return 0;
+                            }
+                        }
+                        if (podeMover != 0) {
+                            System.out.println("Entrou no pode mover");
+                            for (int t = 1; t < posicoes.length; t++) {
+                                quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
+                                        .setPreenchidoPorNavio(false);
+
+                                System.out.println("Coluna e linha liberados: " + posicoes[t].getLinha() + " - "
+                                        + posicoes[t].getColuna());
+                            }
+                            for (int j = posicoes[0].getLinha() + 1; j < posicoes[0].getLinha()
+                                    + embarcacoes[i].getTamanho(); j++) {
+                                posicoes[contador] = quadrantes[j][posicoes[0].getColuna()];
+                                contador++;
+                                quadrantes[j][posicoes[0].getColuna()].setPreenchidoPorNavio(true);
+                            }
+                            tabuleiro.setQuadrantes(quadrantes);
+                            this.embarcacoes[i].setEhVertical(true);
+                            this.embarcacoes[i].setPosicao(posicoes);
+                            return 2;
+                        }
+                    } else {
+                        return 0;
+                    }
+                }
+            }
         }
-        if (navio == EmbarcacaoENUM.FRAGATA) {
-        }
-        if (navio == EmbarcacaoENUM.CORVETA) {
-        }
-        if (navio == EmbarcacaoENUM.SUBMARINO) {
-        }
+        return 0;
 
     }
 

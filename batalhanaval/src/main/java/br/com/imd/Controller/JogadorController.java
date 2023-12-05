@@ -27,12 +27,12 @@ public class JogadorController {
         System.out.println("Entrou em verificar vencedor");
         if (jogadorDaVez == 1) {
             jogador2.atualizarEmbarcacoes();
-            System.out.println(jogador2.getEmbarcacoes().length );
+            System.out.println(jogador2.getEmbarcacoes().length);
             if (jogador2.getEmbarcacoes().length == 0)
                 return true;
         } else {
             jogador1.atualizarEmbarcacoes();
-             System.out.println(jogador1.getEmbarcacoes().length );
+            System.out.println(jogador1.getEmbarcacoes().length);
             if (jogador1.getEmbarcacoes().length == 0)
                 return true;
         }
@@ -49,11 +49,11 @@ public class JogadorController {
 
     }
 
-    public void rotacionarEmbarcacao(EmbarcacaoENUM navio) {
+    public int rotacionarEmbarcacao(EmbarcacaoENUM navio) {
         if (jogadorDaVez == 1)
-            jogador1.rotacionarEmbarcacao(navio);
+            return jogador1.rotacionarEmbarcacao(navio);
         else
-            jogador2.rotacionarEmbarcacao(navio);
+            return jogador2.rotacionarEmbarcacao(navio);
 
     }
 

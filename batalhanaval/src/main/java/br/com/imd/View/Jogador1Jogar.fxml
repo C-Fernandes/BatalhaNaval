@@ -1104,7 +1104,7 @@
          </font>
       </Label>
       <CheckBox fx:id="vNavios" layoutX="26.0" layoutY="116.0" mnemonicParsing="false" onAction="#visualizar" prefHeight="25.0" prefWidth="161.0" text="Visualizar navios" />
-      <Label fx:id="j21" layoutX="360.0" layoutY="541.0" prefHeight="34.0" prefWidth="400.0" text="Jogador 2">
+      <Label fx:id="j2" layoutX="360.0" layoutY="541.0" prefHeight="34.0" prefWidth="400.0" text="Jogador 2">
          <font>
             <Font name="Calibri" size="24.0" />
          </font>

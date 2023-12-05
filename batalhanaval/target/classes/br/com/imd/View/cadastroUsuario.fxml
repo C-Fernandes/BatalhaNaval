@@ -6,24 +6,33 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+   prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21"
+   xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="jogador1" layoutX="44.0" layoutY="300.0" prefHeight="52.0" prefWidth="302.0" />
-      <TextField fx:id="jogador2" layoutX="447.0" layoutY="300.0" prefHeight="52.0" prefWidth="302.0" />
-      <Button layoutX="303.0" layoutY="447.0" mnemonicParsing="false" onAction="#cadastrarUsuarios" prefHeight="58.0" prefWidth="195.0" style="-fx-background-color: #274659;" text="Cadastrar Usuários" textFill="WHITE">
+      <TextField fx:id="jogador2" layoutX="447.0" layoutY="300.0" prefHeight="52.0"
+         prefWidth="302.0" />
+      <Button layoutX="303.0" layoutY="447.0" mnemonicParsing="false" onAction="#cadastrarUsuarios"
+         prefHeight="58.0" prefWidth="195.0" style="-fx-background-color: #274659;"
+         text="Cadastrar Usuários" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
-         </font></Button>
-      <Text layoutX="44.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 1" wrappingWidth="223.6796875">
+         </font>
+      </Button>
+      <Text layoutX="44.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 1"
+         wrappingWidth="223.6796875">
          <font>
             <Font size="49.0" />
          </font>
       </Text>
-      <Text layoutX="447.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 2" wrappingWidth="244.6796875">
+      <Text layoutX="447.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 2"
+         wrappingWidth="244.6796875">
          <font>
             <Font size="49.0" />
          </font>
       </Text>
-      <Button layoutX="303.0" layoutY="512.0" mnemonicParsing="false" onAction="#cadastrarUsuarios" prefHeight="33.0" prefWidth="195.0" text="Voltar ao menu principal" />
+      <Button layoutX="303.0" layoutY="512.0" mnemonicParsing="false" onAction="#voltarMenuInicial"
+         prefHeight="33.0" prefWidth="195.0" text="Voltar ao menu principal" />
    </children>
 </Pane>

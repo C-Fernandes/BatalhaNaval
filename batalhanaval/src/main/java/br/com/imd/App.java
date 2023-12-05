@@ -4,18 +4,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-import java.io.IOException;import java.net.URL;
+import java.io.IOException;
 
 import br.com.imd.Controller.MenuController;
 
-/**
- * JavaFX App
- */
 public class App extends Application {
 
     private static Scene scene;
