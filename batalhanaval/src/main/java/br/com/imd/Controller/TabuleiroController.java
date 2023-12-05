@@ -76,21 +76,15 @@ public class TabuleiroController {
                             livre = false;
 
                     if (livre) {
-                        System.out.println("x :" + linhaAleatoria);
                         Quadrante posicaoEmbarcacao[] = new Quadrante[embarcacoes[i].getTamanho()];
-
-                        System.out.println(embarcacoes[i].getTamanho());
                         try {
                             for (int j = colunaAleatoria; j < colunaAleatoria + (embarcacoes[i].getTamanho()); j++) {
                                 this.quadrantes[linhaAleatoria][j].setPreenchidoPorNavio(true);
-                                System.out.println("j:" + j + " Contador: " + contador);
                                 posicaoEmbarcacao[contador] = quadrantes[linhaAleatoria][j];
                                 contador++;
-                                System.out.println("y:" + j + " Contador: " + contador);
-
                             }
                         } catch (Exception e) {
-                            System.out.println(e);
+                            e.printStackTrace();
                         }
 
                         embarcacoes[i].setPosicao(posicaoEmbarcacao);

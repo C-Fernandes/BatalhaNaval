@@ -30,10 +30,10 @@ import javafx.util.Duration;
 
 public class MenuController implements Initializable {
     private static MenuController instancia;
-    JogadorController jogadores;
-    String telaMomento;
-    Jogador vencedor;
-    Boolean verificador = true, moverDestroyer = false, moverCorveta = false, moverFragata = false,
+    private JogadorController jogadores;
+    private String telaMomento;
+    private Jogador vencedor;
+    private Boolean verificador = true, moverDestroyer = false, moverCorveta = false, moverFragata = false,
             moverSubmarino = false;
 
     public void setTelaMomento(String telaMomento) {
@@ -96,15 +96,17 @@ public class MenuController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        if (vencedor != null)
+        inicializarImgs();
+        if (vencedor != null) {
+
             jogadorVencedor.setText(vencedor.getNome() + " ganhou o jogo!");
-        else {
+            vencedor = null;
+        } else {
             if (telaMomento == "View/comoJogar") {
                 paragrafo1.setText("Batalha naval é um jogo onde dois jogadores disspoem  de\n" +
                         "u");
                 paragrafo2.setText("texto \n texto \n texto");
             }
-            inicializarImgs();
             Quadrante tInimigo[][], tJogador[][];
             Jogador jogador, oponente;
             if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial"
@@ -159,7 +161,7 @@ public class MenuController implements Initializable {
     void inicializarImgs() {
         Boolean verificar = true;
         if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial"
-                && telaMomento != "View/comoJogar") {
+                && telaMomento != "View/comoJogar" && !telaMomento.equals("View/telaEncerramento")) {
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < 10; j++) {
                     int index = (i * 10) + j;
@@ -278,10 +280,7 @@ public class MenuController implements Initializable {
                 }
             }
         }
-
-        if (telaMomento == "View/telaEncerramento")
-
-        {
+        if (telaMomento.equals("View/telaEncerramento")) {
             encerramento.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/encerramento.png")));
         }
     }
@@ -311,13 +310,11 @@ public class MenuController implements Initializable {
     }
 
     void mostrarNaviosJogador(Embarcacao embarcacoesDoJogador[]) {
-        System.out.println("Entrou aqui");
         Boolean destroyerB = false, corvetaB = false, submarinoB = false, fragataB = false;
         for (int i = 0; i < embarcacoesDoJogador.length; i++) {
 
             Quadrante posicao[] = embarcacoesDoJogador[i].getPosicao();
             if (embarcacoesDoJogador[i].getTipo() == EmbarcacaoENUM.DESTROYER) {
-                System.out.println("Passou aqui");
                 tabuleiroDoJogador.setColumnIndex(destroyer, posicao[0].getColuna());
                 tabuleiroDoJogador.setRowIndex(destroyer, posicao[0].getLinha());
                 destroyerB = true;
@@ -359,7 +356,6 @@ public class MenuController implements Initializable {
         if (embarcacao.getEhVertical()) {
             if (linha + (embarcacao.getTamanho() - 1) < 10) {
 
-                System.out.println(linha + 4);
                 for (int i = linha; i < linha + 4; i++)
                     if (tabuleiroJogador[i][coluna].getPreenchidoPorNavio())
                         return false;
@@ -368,16 +364,11 @@ public class MenuController implements Initializable {
                 return false;
             }
         } else {
-            System.out.println("Coluna:  " + (coluna + 4));
             if (coluna + (embarcacao.getTamanho() - 1) < 10) {
-                System.out.println("Entrou aqui");
 
                 for (int i = coluna; i < coluna + 4; i++)
 
                     if (tabuleiroJogador[linha][i].getPreenchidoPorNavio()) {
-                        System.out.println("Parou no if");
-                        System.out.println("Linha " + linha + " coluna " + i);
-                        System.out.println(tabuleiroJogador[linha][i].getPreenchidoPorNavio());
                         return false;
                     }
                 return true;
@@ -388,10 +379,8 @@ public class MenuController implements Initializable {
     }
 
     public void rotacionar(EmbarcacaoENUM embarcacao) {
-        System.out.println("Entrou em rotacionar");
         double antigaAltura, antigaLargura;
         int podeRotacionar = jogadores.rotacionarEmbarcacao(embarcacao);
-        System.out.println(podeRotacionar);
         if (podeRotacionar != 0) {
             if (embarcacao == EmbarcacaoENUM.DESTROYER) {
                 antigaAltura = destroyer.getFitHeight();
@@ -469,8 +458,8 @@ public class MenuController implements Initializable {
     // Funções Scenner Builder:
     @FXML
     public void iniciarNovoJogo() throws IOException {
-        instancia = null;
-        telaMomento = "View/menu-inicial.fxml";
+        jogadores.iniciarNovoJogo();
+        telaMomento = "View/menu-inicial";
         App.setRoot(telaMomento);
     }
 
@@ -494,7 +483,6 @@ public class MenuController implements Initializable {
             telaMomento = "View/cadastroUsuario";
             App.setRoot(telaMomento);
         } catch (Exception e) {
-            System.out.println(e);
         }
     }
 
@@ -514,7 +502,7 @@ public class MenuController implements Initializable {
             Stage stage = (Stage) sairBotao.getScene().getWindow();
             stage.close();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -539,11 +527,9 @@ public class MenuController implements Initializable {
     void setupJogador2(ActionEvent event) throws IOException {
         try {
             jogadores.setJogadorDaVez(2);
-            System.out.println(jogadores.getJogador2().getNome());
             telaMomento = "View/setupJogador2";
             App.setRoot(telaMomento);
         } catch (Exception e) {
-            System.out.println(e);
         }
     }
 
@@ -647,7 +633,6 @@ public class MenuController implements Initializable {
         if (event.getButton() == MouseButton.SECONDARY) {
             rotacionar(EmbarcacaoENUM.DESTROYER);
         } else {
-            System.out.println("Entrou moverDestroyer");
 
             if (!moverDestroyer) {
                 moverDestroyer = true;
@@ -716,7 +701,6 @@ public class MenuController implements Initializable {
             });
             if (!quadrantes[linha][coluna].isAtacado()) {
                 quadrantes[linha][coluna].setAtacado(true);
-                System.out.println("mudou para atacado tabuleiro inimigo");
                 ImageView imageView = (ImageView) tabuleiroAtacado.getChildren().get(index);
 
                 if (quadrantes[linha][coluna].isPreenchidoPorNavio()) {

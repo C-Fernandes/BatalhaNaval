@@ -26,16 +26,12 @@ public class App extends Application {
             stage.setResizable(false);
             stage.show();
         } catch (Exception e) {
-            System.out.println("Problema aqui");
-            System.out.println(e);
             e.printStackTrace();
         }
     }
 
     public static void setRoot(String fxml) throws IOException {
-        menuController.setTelaMomento(fxml);
         scene.setRoot(loadFXML(fxml));
-
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

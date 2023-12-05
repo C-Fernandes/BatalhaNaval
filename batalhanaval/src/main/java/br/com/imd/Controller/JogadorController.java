@@ -24,15 +24,12 @@ public class JogadorController {
     }
 
     public Boolean verificarVencedor() {
-        System.out.println("Entrou em verificar vencedor");
         if (jogadorDaVez == 1) {
             jogador2.atualizarEmbarcacoes();
-            System.out.println(jogador2.getEmbarcacoes().length);
             if (jogador2.getEmbarcacoes().length == 0)
                 return true;
         } else {
             jogador1.atualizarEmbarcacoes();
-            System.out.println(jogador1.getEmbarcacoes().length);
             if (jogador1.getEmbarcacoes().length == 0)
                 return true;
         }
@@ -87,6 +84,11 @@ public class JogadorController {
 
     public void setJogadorDaVez(int jogadorDaVez) {
         this.jogadorDaVez = jogadorDaVez;
+    }
+
+    public void iniciarNovoJogo() {
+        jogador1 = null;
+        jogador2 = null;
     }
 
 }
