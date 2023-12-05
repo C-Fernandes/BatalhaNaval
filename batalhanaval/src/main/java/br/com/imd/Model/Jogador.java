@@ -36,8 +36,10 @@ public class Jogador {
                 if (!embarcacos[i].getEhVertical()) {
                     if (coluna + embarcacos[i].getTamanho() <= 10) {
                         for (int j = coluna; j < coluna + embarcacos[i].getTamanho(); j++) {
-                            if (quadrantes[linha][j].getPreenchidoPorNavio())
+                            if (quadrantes[linha][j].getPreenchidoPorNavio()) {
+                                System.out.println("Linha e coluna ocupados: (moverEmbarcações):" + linha + " - " + j);
                                 podeMover = false;
+                            }
                         }
                         if (podeMover) {
                             for (int t = 0; t < posicoes.length; t++)
@@ -58,8 +60,11 @@ public class Jogador {
                 } else {
                     if (linha + embarcacos[i].getTamanho() <= 10) {
                         for (int j = linha; j < linha + embarcacos[i].getTamanho(); j++) {
-                            if (quadrantes[j][coluna].getPreenchidoPorNavio())
+                            if (quadrantes[j][coluna].getPreenchidoPorNavio()) {
+                                System.out.println("Linha e coluna ocupados: (moverEmbarcações):" + j + " - " + linha);
+
                                 return false;
+                            }
                         }
                         if (podeMover) {
                             for (int t = 0; t < posicoes.length; t++)
@@ -88,7 +93,7 @@ public class Jogador {
 
     public int rotacionarEmbarcacao(EmbarcacaoENUM navio) {
         int podeMover = 1;
-        int contador = 1;
+        int contador = 0;
         Quadrante quadrantes[][] = tabuleiro.getQuadrantes();
         for (int i = 0; i < embarcacoes.length; i++) {
             if (navio == embarcacoes[i].getTipo()) {
@@ -97,27 +102,30 @@ public class Jogador {
                     System.out.println("Era vertical");
                     if (posicoes[0].getColuna() + embarcacoes[i].getTamanho() <= 10) {
                         System.out.println("Entrou no if");
-                        for (int j = posicoes[0].getColuna(); j < posicoes[0].getColuna()
+                        for (int j = posicoes[0].getColuna() + 1; j < posicoes[0].getColuna()
                                 + embarcacoes[i].getTamanho(); j++) {
-                            if (quadrantes[posicoes[0].getColuna()][j].getPreenchidoPorNavio()) {
-                                System.out.println("");
-                                return 0;
-
+                            if (quadrantes[posicoes[0].getLinha()][j].getPreenchidoPorNavio()) {
+                                System.out.println("Linha e coluna ocupadas: " + posicoes[0].getLinha() + " - " + j);
+                                System.out.println("retornou 0 aqui");
+                                podeMover = 0;
+                                return podeMover;
                             }
                         }
                         if (podeMover != 0) {
                             System.out.println("Entrou no if pode mover");
-                            for (int t = 1; t < posicoes.length; t++) {
+                            for (int t = 0; t < posicoes.length; t++) {
                                 quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
                                         .setPreenchidoPorNavio(false);
-                                System.out.println("Coluna e linha liberados: " + posicoes[t].getLinha() + " - "
+                                System.out.println("linha e coluna liberados: " + posicoes[t].getLinha() + " - "
                                         + posicoes[t].getColuna());
                             }
-                            for (int j = posicoes[0].getColuna() + 1; j < posicoes[0].getColuna()
+                            for (int j = posicoes[0].getColuna(); j < posicoes[0].getColuna()
                                     + embarcacoes[i].getTamanho(); j++) {
+                                quadrantes[posicoes[0].getLinha()][j].setPreenchidoPorNavio(true);
                                 posicoes[contador] = quadrantes[posicoes[0].getLinha()][j];
                                 contador++;
-                                quadrantes[posicoes[0].getLinha()][j].setPreenchidoPorNavio(true);
+                                System.out.println(
+                                        "Linha e coluna mudadas p preenhido:" + posicoes[0].getLinha() + " - " + j);
                             }
                             tabuleiro.setQuadrantes(quadrantes);
                             this.embarcacoes[i].setEhVertical(false);
@@ -126,32 +134,40 @@ public class Jogador {
                         }
 
                     } else {
+                        System.out.println("Retornou 0 aqui");
                         return 0;
                     }
                 } else {
                     System.out.println("Era horizontal");
                     if (posicoes[0].getLinha() + embarcacoes[i].getTamanho() <= 10) {
                         System.out.println("Entrou no if");
-                        for (int j = posicoes[0].getLinha(); j < posicoes[0].getLinha()
+                        for (int j = posicoes[0].getLinha() + 1; j < posicoes[0].getLinha()
                                 + embarcacoes[i].getTamanho(); j++) {
-                            if (quadrantes[posicoes[0].getLinha() + 1][j].getPreenchidoPorNavio()) {
+                            System.out.println("Linha e coluna verificados:" + j + " - " + posicoes[0].getColuna());
+                            if (quadrantes[j][posicoes[0].getColuna()].getPreenchidoPorNavio()) {
+                                System.out.println("Linha e coluna ocupadas: " + j + " - " + posicoes[0].getColuna());
+
+                                System.out.println("Retornou 0 na verificação do else");
                                 return 0;
                             }
                         }
                         if (podeMover != 0) {
                             System.out.println("Entrou no pode mover");
-                            for (int t = 1; t < posicoes.length; t++) {
+                            for (int t = 0; t < posicoes.length; t++) {
                                 quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
                                         .setPreenchidoPorNavio(false);
 
                                 System.out.println("Coluna e linha liberados: " + posicoes[t].getLinha() + " - "
                                         + posicoes[t].getColuna());
                             }
-                            for (int j = posicoes[0].getLinha() + 1; j < posicoes[0].getLinha()
+                            for (int j = posicoes[0].getLinha(); j < posicoes[0].getLinha()
                                     + embarcacoes[i].getTamanho(); j++) {
+                                quadrantes[j][posicoes[0].getColuna()].setPreenchidoPorNavio(true);
+                                System.out.println(
+                                        "Linha e coluna mudadas p preenhido:" + j + " - " + posicoes[0].getColuna());
+
                                 posicoes[contador] = quadrantes[j][posicoes[0].getColuna()];
                                 contador++;
-                                quadrantes[j][posicoes[0].getColuna()].setPreenchidoPorNavio(true);
                             }
                             tabuleiro.setQuadrantes(quadrantes);
                             this.embarcacoes[i].setEhVertical(true);

@@ -36,6 +36,10 @@ public class MenuController implements Initializable {
     Boolean verificador = true, moverDestroyer = false, moverCorveta = false, moverFragata = false,
             moverSubmarino = false;
 
+    public void setTelaMomento(String telaMomento) {
+        this.telaMomento = telaMomento;
+    }
+
     // FUNÇÃO MAIS IMPORTANTE, NÃO MEXER!
     public static MenuController getInstancia() {
         if (instancia == null) {
@@ -87,7 +91,6 @@ public class MenuController implements Initializable {
     private CheckBox vNavios;
     @FXML
     private Button sairBotao;
-
     @FXML
     private Label mensagem;
 
@@ -703,7 +706,7 @@ public class MenuController implements Initializable {
                 jDaVez = jogadores.getJogador2();
             }
             int index = (linha * 10) + coluna;
-            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
             pause.setOnFinished(e -> {
                 try {
                     App.setRoot(telaMomento);
