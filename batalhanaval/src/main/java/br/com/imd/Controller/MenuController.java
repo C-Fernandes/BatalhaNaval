@@ -102,7 +102,7 @@ public class MenuController implements Initializable {
             jogadorVencedor.setText(vencedor.getNome() + " ganhou o jogo!");
             vencedor = null;
         } else {
-            if (telaMomento == "View/comoJogar") {
+            if (telaMomento.equals("View/comoJogar")) {
                 paragrafo1.setText("Batalha naval é um jogo onde dois jogadores disspoem  de\n" +
                         "u");
                 paragrafo2.setText("texto \n texto \n texto");
@@ -120,14 +120,14 @@ public class MenuController implements Initializable {
                 }
                 tJogador = jogador.getTabuleiro().getQuadrantes();
                 tInimigo = oponente.getTabuleiro().getQuadrantes();
-
+                mensagem.setOpacity(0);
                 if (telaMomento != "View/setupJogador2")
                     j1.setText(jogadores.getJogador1().getNome());
                 if (telaMomento != "View/setupJogador1")
                     j2.setText(jogadores.getJogador2().getNome());
                 if (telaMomento != "View/setupJogador1" && telaMomento != "View/setupJogador2") {
                     verificador = true;
-                    mensagem.setOpacity(0);
+
                     jogador.atualizarEmbarcacoes();
                     vNavios.setSelected(jogador.getMostrarNavios());
                     ataque.setText(jogador.getNome() + ", ataque!");
@@ -138,6 +138,18 @@ public class MenuController implements Initializable {
 
             }
         }
+    }
+
+    public void mostrarMensagemError(String m) {
+        mensagem.setText(m);
+        mensagem.setOpacity(1);
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        pause.setOnFinished(e -> {
+            mensagem.setOpacity(0);
+        });
+
+        pause.play();
+
     }
 
     // Funções de controle:
@@ -452,6 +464,8 @@ public class MenuController implements Initializable {
 
                 }
             }
+        } else {
+            mostrarMensagemError("Não é possivel rotacionar\na embarcação, posição inválida");
         }
     }
 
@@ -478,7 +492,7 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    void jogar(ActionEvent event) throws IOException {
+    void jogar() throws IOException {
         try {
             telaMomento = "View/cadastroUsuario";
             App.setRoot(telaMomento);
@@ -487,7 +501,7 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    void comoJogar(ActionEvent event) throws IOException {
+    void comoJogar() throws IOException {
         try {
             telaMomento = "View/comoJogar";
             App.setRoot(telaMomento);
@@ -497,7 +511,7 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    void sairDoJogo(ActionEvent event) throws IOException {
+    void sairDoJogo() throws IOException {
         try {
             Stage stage = (Stage) sairBotao.getScene().getWindow();
             stage.close();
@@ -566,6 +580,8 @@ public class MenuController implements Initializable {
                 if (moverFragata) {
                     tabuleiroDoJogador.setColumnIndex(fragata, coluna);
                     tabuleiroDoJogador.setRowIndex(fragata, linha); //
+                } else {
+                    mostrarMensagemError("Não é possivel mover\no fragata para está posição");
                 }
                 moverFragata = false;
 
@@ -594,6 +610,8 @@ public class MenuController implements Initializable {
                 if (moverSubmarino) {
                     tabuleiroDoJogador.setColumnIndex(submarino, coluna);
                     tabuleiroDoJogador.setRowIndex(submarino, linha); //
+                } else {
+                    mostrarMensagemError("Não é possivel mover\no submarino para está posição");
                 }
                 moverSubmarino = false;
             }
@@ -621,10 +639,13 @@ public class MenuController implements Initializable {
                 if (moverCorveta) {
                     tabuleiroDoJogador.setColumnIndex(corveta, coluna);
                     tabuleiroDoJogador.setRowIndex(corveta, linha); //
+                } else {
+                    mostrarMensagemError("Não é possivel mover\no corveta para está posição");
                 }
                 moverCorveta = false;
             }
         }
+
     }
 
     @FXML
@@ -633,7 +654,6 @@ public class MenuController implements Initializable {
         if (event.getButton() == MouseButton.SECONDARY) {
             rotacionar(EmbarcacaoENUM.DESTROYER);
         } else {
-
             if (!moverDestroyer) {
                 moverDestroyer = true;
             } else {
@@ -651,11 +671,14 @@ public class MenuController implements Initializable {
                 if (moverDestroyer) {
                     tabuleiroDoJogador.setColumnIndex(destroyer, coluna);
                     tabuleiroAtacado.setRowIndex(destroyer, linha); //
+                } else {
+                    mostrarMensagemError("Não é possivel mover\no destroyer para está posição");
                 }
                 moverDestroyer = false;
 
             }
         }
+
     }
 
     @FXML

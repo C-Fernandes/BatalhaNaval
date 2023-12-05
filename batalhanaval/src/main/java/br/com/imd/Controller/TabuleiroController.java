@@ -79,6 +79,7 @@ public class TabuleiroController {
                         Quadrante posicaoEmbarcacao[] = new Quadrante[embarcacoes[i].getTamanho()];
                         try {
                             for (int j = colunaAleatoria; j < colunaAleatoria + (embarcacoes[i].getTamanho()); j++) {
+                                this.quadrantes[linhaAleatoria][j].setOcupadoPor(embarcacoes[i].getTipo());
                                 this.quadrantes[linhaAleatoria][j].setPreenchidoPorNavio(true);
                                 posicaoEmbarcacao[contador] = quadrantes[linhaAleatoria][j];
                                 contador++;

@@ -43,7 +43,6 @@ public class JogadorController {
     }
 
     public JogadorController() {
-
     }
 
     public int rotacionarEmbarcacao(EmbarcacaoENUM navio) {

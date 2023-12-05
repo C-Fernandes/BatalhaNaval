@@ -5,6 +5,7 @@ public class Quadrante {
     // Coordenadas do quadrante
     private int linha, coluna;
     private boolean atacado = false, preenchidoPorNavio = false;
+    private EmbarcacaoENUM ocupadoPor = null;
 
     public Quadrante() {
     }
@@ -61,6 +62,14 @@ public class Quadrante {
 
     public void setAtacado(boolean atacado) {
         this.atacado = atacado;
+    }
+
+    public EmbarcacaoENUM getOcupadoPor() {
+        return this.ocupadoPor;
+    }
+
+    public void setOcupadoPor(EmbarcacaoENUM ocupadoPor) {
+        this.ocupadoPor = ocupadoPor;
     }
 
 }

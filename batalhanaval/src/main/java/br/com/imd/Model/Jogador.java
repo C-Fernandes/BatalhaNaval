@@ -36,17 +36,22 @@ public class Jogador {
                 if (!embarcacos[i].getEhVertical()) {
                     if (coluna + embarcacos[i].getTamanho() <= 10) {
                         for (int j = coluna; j < coluna + embarcacos[i].getTamanho(); j++) {
-                            if (quadrantes[linha][j].getPreenchidoPorNavio()) {
+                            if (quadrantes[linha][j].getPreenchidoPorNavio()
+                                    && quadrantes[linha][j].getOcupadoPor() != embarcacos[i].getTipo())
                                 podeMover = false;
-                            }
+
                         }
                         if (podeMover) {
-                            for (int t = 0; t < posicoes.length; t++)
+                            for (int t = 0; t < posicoes.length; t++) {
                                 quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
                                         .setPreenchidoPorNavio(false);
+                                quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
+                                        .setOcupadoPor(null);
+                            }
                             for (int j = coluna; j < coluna + embarcacos[i].getTamanho(); j++) {
                                 posicoes[contador] = quadrantes[linha][j];
                                 contador++;
+                                quadrantes[linha][j].setOcupadoPor(embarcacos[i].getTipo());
                                 quadrantes[linha][j].setPreenchidoPorNavio(true);
                             }
                             tabuleiro.setQuadrantes(quadrantes);
@@ -59,18 +64,22 @@ public class Jogador {
                 } else {
                     if (linha + embarcacos[i].getTamanho() <= 10) {
                         for (int j = linha; j < linha + embarcacos[i].getTamanho(); j++) {
-                            if (quadrantes[j][coluna].getPreenchidoPorNavio()) {
+                            if (quadrantes[j][coluna].getPreenchidoPorNavio()
+                                    && quadrantes[j][coluna].getOcupadoPor() != embarcacos[i].getTipo()) {
                                 return false;
                             }
                         }
                         if (podeMover) {
-                            for (int t = 0; t < posicoes.length; t++)
+                            for (int t = 0; t < posicoes.length; t++) {
                                 quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
                                         .setPreenchidoPorNavio(false);
-
+                                quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
+                                        .setOcupadoPor(null);
+                            }
                             for (int j = linha; j < linha + embarcacos[i].getTamanho(); j++) {
                                 posicoes[contador] = quadrantes[j][coluna];
                                 contador++;
+                                quadrantes[j][coluna].setOcupadoPor(embarcacos[i].getTipo());
                                 quadrantes[j][coluna].setPreenchidoPorNavio(true);
                             }
                             tabuleiro.setQuadrantes(quadrantes);
@@ -105,12 +114,16 @@ public class Jogador {
                             }
                         }
                         if (podeMover != 0) {
-                            for (int t = 0; t < posicoes.length; t++)
+                            for (int t = 0; t < posicoes.length; t++) {
                                 quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
                                         .setPreenchidoPorNavio(false);
-
+                                quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
+                                        .setOcupadoPor(null);
+                            }
                             for (int j = posicoes[0].getColuna(); j < posicoes[0].getColuna()
                                     + embarcacoes[i].getTamanho(); j++) {
+                                quadrantes[posicoes[0].getLinha()][j].setOcupadoPor(embarcacoes[i].getTipo());
+
                                 quadrantes[posicoes[0].getLinha()][j].setPreenchidoPorNavio(true);
                                 posicoes[contador] = quadrantes[posicoes[0].getLinha()][j];
                                 contador++;
@@ -133,12 +146,15 @@ public class Jogador {
                             }
                         }
                         if (podeMover != 0) {
-                            for (int t = 0; t < posicoes.length; t++)
+                            for (int t = 0; t < posicoes.length; t++) {
                                 quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
                                         .setPreenchidoPorNavio(false);
-
+                                quadrantes[posicoes[t].getLinha()][posicoes[t].getColuna()]
+                                        .setOcupadoPor(null);
+                            }
                             for (int j = posicoes[0].getLinha(); j < posicoes[0].getLinha()
                                     + embarcacoes[i].getTamanho(); j++) {
+                                quadrantes[j][posicoes[0].getColuna()].setOcupadoPor(embarcacoes[i].getTipo());
                                 quadrantes[j][posicoes[0].getColuna()].setPreenchidoPorNavio(true);
                                 posicoes[contador] = quadrantes[j][posicoes[0].getColuna()];
                                 contador++;
