@@ -1,5 +1,5 @@
 #paneInicio {
-    -fx-background-image: url("https://media3.giphy.com/media/3oz8xRQiRlaS1XwnPW/giphy.gif?cid=ecf05e47hhptvhtdw17t5gn0tm22q5kd2e5us1ewzjyycsy3&ep=v1_gifs_search&rid=giphy.gif&ct=g");
+    -fx-background-image: url("../../../src/main/resources/br/com/imd/imgs/gifnavio.gif");
     -fx-background-size: cover;
 }
 

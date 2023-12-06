@@ -64,6 +64,12 @@ public class MenuController implements Initializable {
     @FXML
     private ImageView destroyer;
     @FXML
+    private ImageView agua;
+    @FXML
+    private ImageView aguaAcertou;
+    @FXML
+    private ImageView aguaErrou;
+    @FXML
     private ImageView encerramento;
     @FXML
     private ImageView barquinho;
@@ -98,14 +104,37 @@ public class MenuController implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
         inicializarImgs();
         if (vencedor != null) {
-
             jogadorVencedor.setText(vencedor.getNome() + " ganhou o jogo!");
             vencedor = null;
         } else {
             if (telaMomento.equals("View/comoJogar")) {
-                paragrafo1.setText("Batalha naval é um jogo onde dois jogadores disspoem  de\n" +
-                        "u");
-                paragrafo2.setText("texto \n texto \n texto");
+                paragrafo1.setText("Batalha naval é um jogo onde dois jogadores dispoem de\n" +
+                        "um tabuleiro 10x10 com 4 embarcações a serem posicionadas\n" +
+                        "de modo estratégico. São elas:\n" +
+                        "CORVETA: Uma embarcação pequena, com tamanho 1x2;\n" +
+                        "SUBMARINO: Uma embarcação média, com tamanho 1x3;\n" +
+                        "FRAGATA: Uma embarcação grande, com tamanho 1x4; e\n" +
+                        "DESTROYER: Uma embarcação enorme, com tamanho 1x5.\n" +
+                        "Durante o jogo eles serão adversários, e têm como\n" +
+                        "objetivo destruirem todas as embarcações do oponente,\n" +
+                        "sem saberem onde elas estarão posicionadas.");
+                paragrafo2.setText("Durante cada turno do jogo, os jogadores devem lançar\n" +
+                        "bombas sobre os quadrantes do adversário, até que não\n" +
+                        "restem mais embarcações no tabuleiro. Se acertarem a\n" +
+                        "jogada, terão uma nova tentativa no turno. Se errarem,\n" +
+                        "O turno passa para o oponente. E assim se segue, até que\n" +
+                        "haja um vencedor na partida.");
+                corveta.setImage(
+                        new Image(getClass().getResourceAsStream("/br/com/imd/imgs/corvetaVertical.png")));
+                submarino.setImage(
+                        new Image(getClass().getResourceAsStream("/br/com/imd/imgs/submarinoVertical.png")));
+                fragata.setImage(
+                        new Image(getClass().getResourceAsStream("/br/com/imd/imgs/fragataVertical.png")));
+                destroyer.setImage(
+                        new Image(getClass().getResourceAsStream("/br/com/imd/imgs/destroyerVertical.png")));
+                agua.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/fundo-do-mar.png")));
+                aguaAcertou.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/explosao.png")));
+                aguaErrou.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/splash.png")));
             }
             Quadrante tInimigo[][], tJogador[][];
             Jogador jogador, oponente;
