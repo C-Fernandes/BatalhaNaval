@@ -321,9 +321,11 @@ public class MenuController implements Initializable {
                 }
             }
         }
-        if (telaMomento.equals("View/telaEncerramento")) {
+        if (telaMomento.equals("View/telaEncerramento"))
             encerramento.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/encerramento.png")));
-        }
+        if (telaMomento.equals("View/menu-inicial"))
+            barquinho.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/navio.jpg")));
+
     }
 
     void mostrarQuadrantesAtacados(Quadrante tJogador[][], Quadrante tInimigo[][]) {
