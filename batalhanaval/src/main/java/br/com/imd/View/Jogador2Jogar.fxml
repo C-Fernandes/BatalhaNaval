@@ -1110,55 +1110,5 @@
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Text layoutX="50.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="10.46875">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="91.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="10.46875">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="130.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3" wrappingWidth="10.46875">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="168.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4" wrappingWidth="10.46875">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="207.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5" wrappingWidth="10.46875">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="248.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="6" wrappingWidth="10.46875">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="287.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="7" wrappingWidth="10.46875">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="328.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="8" wrappingWidth="10.46875">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="369.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9" wrappingWidth="10.46875">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="406.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" wrappingWidth="21.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
    </children>
 </Pane>
