@@ -133,7 +133,7 @@ public class MenuController implements Initializable {
                 destroyer.setImage(
                         new Image(getClass().getResourceAsStream("/br/com/imd/imgs/destroyerVertical.png")));
                 agua.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/fundo-do-mar.png")));
-                aguaAcertou.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/explosao.png")));
+                aguaAcertou.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/explosao.jpeg")));
                 aguaErrou.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/splash.png")));
             }
             Quadrante tInimigo[][], tJogador[][];
