@@ -19,10 +19,19 @@ public class Jogador {
         this.pontuacao = 0;
     }
 
+    /**
+     * 
+     */
     public void atualizarEmbarcacoes() {
         this.embarcacoes = tabuleiro.verificarNavioDestruido(embarcacoes);
     }
 
+    /**
+     * @param navio
+     * @param linha
+     * @param coluna
+     * @return
+     */
     public Boolean moverEmbarcacoes(EmbarcacaoENUM navio, int linha, int coluna) {
         Quadrante quadrantes[][] = tabuleiro.getQuadrantes();
         Embarcacao[] embarcacos = this.embarcacoes;
@@ -97,6 +106,10 @@ public class Jogador {
 
     }
 
+    /**
+     * @param navio
+     * @return
+     */
     public int rotacionarEmbarcacao(EmbarcacaoENUM navio) {
         int podeMover = 1;
         int contador = 0;
@@ -174,66 +187,114 @@ public class Jogador {
 
     }
 
+    /**
+     * 
+     */
     public void posicionarEmbarcacoesAleatoriamente() {
         this.embarcacoes = tabuleiro.posicionarAleatoriamente(this.embarcacoes);
     }
 
+    /**
+     * @return
+     */
     public Embarcacao getDestroyer() {
         return this.embarcacoes[0];
     }
 
+    /**
+     * @return
+     */
     public Embarcacao getCorveta() {
         return this.embarcacoes[1];
     }
 
+    /**
+     * @return
+     */
     public Embarcacao getFragata() {
         return this.embarcacoes[2];
     }
 
+    /**
+     * @return
+     */
     public Embarcacao getSubmarino() {
         return this.embarcacoes[3];
     }
 
+    /**
+     * @return
+     */
     public String getNome() {
         return this.nome;
     }
 
+    /**
+     * @param nome
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     * @return
+     */
     public int getPontuacao() {
         return this.pontuacao;
     }
 
+    /**
+     * @param pontuacao
+     */
     public void setPontuacao(int pontuacao) {
         this.pontuacao = pontuacao;
     }
 
+    /**
+     * @return
+     */
     public Embarcacao[] getEmbarcacoes() {
         return this.embarcacoes;
     }
 
+    /**
+     * @param embarcacoes
+     */
     public void setEmbarcacoes(Embarcacao[] embarcacoes) {
         this.embarcacoes = embarcacoes;
     }
 
+    /**
+     * @return
+     */
     public TabuleiroController getTabuleiro() {
         return this.tabuleiro;
     }
 
+    /**
+     * @param tabuleiro
+     */
     public void setTabuleiro(TabuleiroController tabuleiro) {
         this.tabuleiro = tabuleiro;
     }
 
+    /**
+     * @return
+     */
     public boolean isMostrarNavios() {
         return this.mostrarNavios;
     }
 
+    /**
+     * @return
+     */
     public boolean getMostrarNavios() {
         return this.mostrarNavios;
     }
 
+    /**
+     * 
+     */
     public void setMostrarNavios() {
         if (mostrarNavios)
             this.mostrarNavios = false;

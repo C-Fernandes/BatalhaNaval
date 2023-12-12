@@ -15,9 +15,12 @@ public class App extends Application {
     private static Scene scene;
     private static MenuController menuController;
 
+    /**
+     * @param stage
+     * @throws IOException
+     */
     @Override
     public void start(Stage stage) throws IOException {
-
         try {
             this.menuController = MenuController.getInstancia();
             scene = new Scene(loadFXML("View/menu-inicial"), 800, 600);
@@ -26,20 +29,32 @@ public class App extends Application {
             stage.setResizable(false);
             stage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Erro ao trocar de tela " + e.getMessage());
         }
     }
 
+    /**
+     * @param fxml
+     * @throws IOException
+     */
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
+    /**
+     * @param fxml
+     * @return
+     * @throws IOException
+     */
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         fxmlLoader.setController(menuController);
         return fxmlLoader.load();
     }
 
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         launch();
     }

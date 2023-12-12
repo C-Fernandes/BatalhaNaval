@@ -1,0 +1,50 @@
+@options
+--module-path
+'C:/Users/ferna/.m2/repository/org/openjfx/javafx-controls/13/javafx-controls-13.jar;C:/Users/ferna/.m2/repository/org/openjfx/javafx-controls/13/javafx-controls-13-win.jar;C:/Users/ferna/.m2/repository/org/openjfx/javafx-graphics/13/javafx-graphics-13.jar;C:/Users/ferna/.m2/repository/org/openjfx/javafx-graphics/13/javafx-graphics-13-win.jar;C:/Users/ferna/.m2/repository/org/openjfx/javafx-base/13/javafx-base-13.jar;C:/Users/ferna/.m2/repository/org/openjfx/javafx-base/13/javafx-base-13-win.jar;C:/Users/ferna/.m2/repository/org/openjfx/javafx-fxml/13/javafx-fxml-13.jar;C:/Users/ferna/.m2/repository/org/openjfx/javafx-fxml/13/javafx-fxml-13-win.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'11'
+-sourcepath
+'D:/Programas/LP2/BatalhaNaval/batalhanaval/src/main/java'
+-subpackages
+br.com.imd
+-author
+-bottom
+'Copyright &#169; 2023. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'D:/Programas/LP2/BatalhaNaval/batalhanaval/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'batalhanaval 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/en/java/javase/11/docs/api' 'D:/Programas/LP2/BatalhaNaval/batalhanaval/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'batalhanaval 1.0-SNAPSHOT API'
+D:\Programas\LP2\BatalhaNaval\batalhanaval\src\main\java\module-info.java = 1702419749815
+D:\Programas\LP2\BatalhaNaval\batalhanaval\src\main\java = 1702419744176
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\allclasses-index.html = 1702421840701
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\allpackages-index.html = 1702421840708
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\copy.svg = 1702421840889
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\element-list = 1702421840285
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\help-doc.html = 1702421840881
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\index-all.html = 1702421840832
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\index.html = 1702421840839
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\link.svg = 1702421840891
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\member-search-index.js = 1702421840717
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\module-search-index.js = 1702421840713
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\overview-tree.html = 1702421840605
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\package-search-index.js = 1702421840714
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\script.js = 1702421840888
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\search-page.js = 1702421840897
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\search.html = 1702421840836
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\search.js = 1702421840894
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\stylesheet.css = 1702421840886
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\tag-search-index.js = 1702421840720
+D:\Programas\LP2\BatalhaNaval\batalhanaval\target\site\apidocs\type-search-index.js = 1702421840716

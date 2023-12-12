@@ -6,8 +6,14 @@ import java.util.Random;
 
 public class TabuleiroController {
 
+    /**
+     *
+     */
     private Quadrante[][] quadrantes;
 
+    /**
+     * 
+     */
     public TabuleiroController() {
         this.quadrantes = new Quadrante[10][10];
         for (int i = 0; i < 10; i++)
@@ -16,18 +22,31 @@ public class TabuleiroController {
 
     }
 
+    /**
+     * @return
+     */
     public Quadrante[][] getQuadrantes() {
         return this.quadrantes;
     }
 
+    /**
+     * @param quadrante
+     */
     public void setQuadrantes(Quadrante quadrante) {
         this.quadrantes[quadrante.getLinha()][quadrante.getColuna()] = quadrante;
     }
 
+    /**
+     * @param quadrantes
+     */
     public void setQuadrantes(Quadrante[][] quadrantes) {
         this.quadrantes = quadrantes;
     }
 
+    /**
+     * @param e
+     * @return
+     */
     public Embarcacao[] verificarNavioDestruido(Embarcacao e[]) {
 
         Embarcacao novaEmbarcacao[], embarcacoes[] = e;
@@ -60,6 +79,10 @@ public class TabuleiroController {
         return novaEmbarcacao;
     }
 
+    /**
+     * @param embarcacoes
+     * @return
+     */
     public Embarcacao[] posicionarAleatoriamente(Embarcacao embarcacoes[]) {
 
         for (int i = 0; i < embarcacoes.length; i++) {

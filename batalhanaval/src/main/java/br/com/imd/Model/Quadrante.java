@@ -24,6 +24,9 @@ public class Quadrante {
         this.preenchidoPorNavio = preenchidoPorNavio;
     }
 
+    /**
+     * @return int
+     */
     public int getLinha() {
         return this.linha;
     }

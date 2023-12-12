@@ -36,11 +36,10 @@ public class MenuController implements Initializable {
     private Boolean verificador = true, moverDestroyer = false, moverCorveta = false, moverFragata = false,
             moverSubmarino = false;
 
-    public void setTelaMomento(String telaMomento) {
-        this.telaMomento = telaMomento;
-    }
-
     // FUNÇÃO MAIS IMPORTANTE, NÃO MEXER!
+    /**
+     * @return
+     */
     public static MenuController getInstancia() {
         if (instancia == null) {
             instancia = new MenuController();
@@ -100,6 +99,10 @@ public class MenuController implements Initializable {
     @FXML
     private Label mensagem;
 
+    /**
+     * @param arg0
+     * @param arg1
+     */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         inicializarImgs();
@@ -107,35 +110,6 @@ public class MenuController implements Initializable {
             jogadorVencedor.setText(vencedor.getNome() + " ganhou o jogo!");
             vencedor = null;
         } else {
-            if (telaMomento.equals("View/comoJogar")) {
-                paragrafo1.setText("Batalha naval é um jogo onde dois jogadores dispoem de\n" +
-                        "um tabuleiro 10x10 com 4 embarcações a serem posicionadas\n" +
-                        "de modo estratégico. São elas:\n" +
-                        "CORVETA: Uma embarcação pequena, com tamanho 1x2;\n" +
-                        "SUBMARINO: Uma embarcação média, com tamanho 1x3;\n" +
-                        "FRAGATA: Uma embarcação grande, com tamanho 1x4; e\n" +
-                        "DESTROYER: Uma embarcação enorme, com tamanho 1x5.\n" +
-                        "Durante o jogo eles serão adversários, e têm como\n" +
-                        "objetivo destruirem todas as embarcações do oponente,\n" +
-                        "sem saberem onde elas estarão posicionadas.");
-                paragrafo2.setText("Durante cada turno do jogo, os jogadores devem lançar\n" +
-                        "bombas sobre os quadrantes do adversário, até que não\n" +
-                        "restem mais embarcações no tabuleiro. Se acertarem a\n" +
-                        "jogada, terão uma nova tentativa no turno. Se errarem,\n" +
-                        "O turno passa para o oponente. E assim se segue, até que\n" +
-                        "haja um vencedor na partida.");
-                corveta.setImage(
-                        new Image(getClass().getResourceAsStream("/br/com/imd/imgs/corvetaVertical.png")));
-                submarino.setImage(
-                        new Image(getClass().getResourceAsStream("/br/com/imd/imgs/submarinoVertical.png")));
-                fragata.setImage(
-                        new Image(getClass().getResourceAsStream("/br/com/imd/imgs/fragataVertical.png")));
-                destroyer.setImage(
-                        new Image(getClass().getResourceAsStream("/br/com/imd/imgs/destroyerVertical.png")));
-                agua.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/fundo-do-mar.png")));
-                aguaAcertou.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/explosao.jpeg")));
-                aguaErrou.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/splash.png")));
-            }
             Quadrante tInimigo[][], tJogador[][];
             Jogador jogador, oponente;
             if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial"
@@ -156,7 +130,6 @@ public class MenuController implements Initializable {
                     j2.setText(jogadores.getJogador2().getNome());
                 if (telaMomento != "View/setupJogador1" && telaMomento != "View/setupJogador2") {
                     verificador = true;
-
                     jogador.atualizarEmbarcacoes();
                     vNavios.setSelected(jogador.getMostrarNavios());
                     ataque.setText(jogador.getNome() + ", ataque!");
@@ -169,6 +142,9 @@ public class MenuController implements Initializable {
         }
     }
 
+    /**
+     * @param m
+     */
     public void mostrarMensagemError(String m) {
         mensagem.setText(m);
         mensagem.setOpacity(1);
@@ -176,12 +152,13 @@ public class MenuController implements Initializable {
         pause.setOnFinished(e -> {
             mensagem.setOpacity(0);
         });
-
         pause.play();
-
     }
 
     // Funções de controle:
+    /**
+     * @param v
+     */
     void esconderMostrarNavios(Boolean v) {
         int opacidade;
         if (v)
@@ -199,6 +176,9 @@ public class MenuController implements Initializable {
             submarino.setOpacity(opacidade);
     }
 
+    /**
+     * 
+     */
     void inicializarImgs() {
         Boolean verificar = true;
         if (telaMomento != "View/cadastroUsuario" && telaMomento != "View/menu-inicial"
@@ -325,9 +305,41 @@ public class MenuController implements Initializable {
             encerramento.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/encerramento.png")));
         if (telaMomento.equals("View/menu-inicial"))
             barquinho.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/navio.jpg")));
-
+        if (telaMomento.equals("View/comoJogar")) {
+            paragrafo1.setText("Batalha naval é um jogo onde dois jogadores dispoem de\n" +
+                    "um tabuleiro 10x10 com 4 embarcações a serem posicionadas\n" +
+                    "de modo estratégico. São elas:\n" +
+                    "CORVETA: Uma embarcação pequena, com tamanho 1x2;\n" +
+                    "SUBMARINO: Uma embarcação média, com tamanho 1x3;\n" +
+                    "FRAGATA: Uma embarcação grande, com tamanho 1x4; e\n" +
+                    "DESTROYER: Uma embarcação enorme, com tamanho 1x5.\n" +
+                    "Durante o jogo eles serão adversários, e têm como\n" +
+                    "objetivo destruirem todas as embarcações do oponente,\n" +
+                    "sem saberem onde elas estarão posicionadas.");
+            paragrafo2.setText("Durante cada turno do jogo, os jogadores devem lançar\n" +
+                    "bombas sobre os quadrantes do adversário, até que não\n" +
+                    "restem mais embarcações no tabuleiro. Se acertarem a\n" +
+                    "jogada, terão uma nova tentativa no turno. Se errarem,\n" +
+                    "O turno passa para o oponente. E assim se segue, até que\n" +
+                    "haja um vencedor na partida.");
+            corveta.setImage(
+                    new Image(getClass().getResourceAsStream("/br/com/imd/imgs/corvetaVertical.png")));
+            submarino.setImage(
+                    new Image(getClass().getResourceAsStream("/br/com/imd/imgs/submarinoVertical.png")));
+            fragata.setImage(
+                    new Image(getClass().getResourceAsStream("/br/com/imd/imgs/fragataVertical.png")));
+            destroyer.setImage(
+                    new Image(getClass().getResourceAsStream("/br/com/imd/imgs/destroyerVertical.png")));
+            agua.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/fundo-do-mar.png")));
+            aguaAcertou.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/explosao.jpeg")));
+            aguaErrou.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/splash.png")));
+        }
     }
 
+    /**
+     * @param tJogador
+     * @param tInimigo
+     */
     void mostrarQuadrantesAtacados(Quadrante tJogador[][], Quadrante tInimigo[][]) {
         Image destruido = new Image(getClass().getResourceAsStream("/br/com/imd/imgs/explosao.jpeg"));
         Image splash = new Image(getClass().getResourceAsStream("/br/com/imd/imgs/splash.png"));
@@ -352,6 +364,9 @@ public class MenuController implements Initializable {
         }
     }
 
+    /**
+     * @param embarcacoesDoJogador
+     */
     void mostrarNaviosJogador(Embarcacao embarcacoesDoJogador[]) {
         Boolean destroyerB = false, corvetaB = false, submarinoB = false, fragataB = false;
         for (int i = 0; i < embarcacoesDoJogador.length; i++) {
@@ -388,6 +403,12 @@ public class MenuController implements Initializable {
             tabuleiroDoJogador.getChildren().remove(submarino);
     }
 
+    /**
+     * @param embarcacao
+     * @param linha
+     * @param coluna
+     * @return
+     */
     boolean moverEmbarcacao(Embarcacao embarcacao, int linha, int coluna) {
         Jogador jogadorDaVez;
         if (jogadores.getJogadorDaVez() == 1)
@@ -421,6 +442,9 @@ public class MenuController implements Initializable {
         }
     }
 
+    /**
+     * @param embarcacao
+     */
     public void rotacionar(EmbarcacaoENUM embarcacao) {
         double antigaAltura, antigaLargura;
         int podeRotacionar = jogadores.rotacionarEmbarcacao(embarcacao);
@@ -501,6 +525,9 @@ public class MenuController implements Initializable {
     }
 
     // Funções Scenner Builder:
+    /**
+     * @throws IOException
+     */
     @FXML
     public void iniciarNovoJogo() throws IOException {
         jogadores.iniciarNovoJogo();
@@ -508,6 +535,9 @@ public class MenuController implements Initializable {
         App.setRoot(telaMomento);
     }
 
+    /**
+     * 
+     */
     @FXML
     void visualizar() {
         Jogador jogadorDaVez = new Jogador();
@@ -522,74 +552,107 @@ public class MenuController implements Initializable {
         esconderMostrarNavios(jogadorDaVez.getMostrarNavios());
     }
 
+    /**
+     * @throws IOException
+     */
     @FXML
     void jogar() throws IOException {
         try {
             telaMomento = "View/cadastroUsuario";
             App.setRoot(telaMomento);
         } catch (Exception e) {
+            System.out.println("Erro ao trocar de tela para cadastro de usuario." + e.getMessage());
         }
     }
 
+    /**
+     * @throws IOException
+     */
     @FXML
     void comoJogar() throws IOException {
         try {
             telaMomento = "View/comoJogar";
             App.setRoot(telaMomento);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Erro ao trocar de tela" + e.getMessage());
+
         }
     }
 
+    /**
+     * @throws IOException
+     */
     @FXML
     void sairDoJogo() throws IOException {
         try {
             Stage stage = (Stage) sairBotao.getScene().getWindow();
             stage.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Erro ao trocar de tela" + e.getMessage());
         }
     }
 
+    /**
+     * @throws IOException
+     */
     @FXML
-    void voltarMenuInicial(ActionEvent event) throws IOException {
+    void voltarMenuInicial() throws IOException {
         try {
             telaMomento = "View/menu-inicial";
             App.setRoot(telaMomento);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Erro ao trocar de tela" + e.getMessage());
         }
     }
 
+    /**
+     * @throws IOException
+     */
     @FXML
-    void cadastrarUsuarios(ActionEvent event) throws IOException {
+    void cadastrarUsuarios() throws IOException {
         jogadores.criarJogadores(jogador1.getText(), jogador2.getText());
-        telaMomento = "View/setupJogador1";
-        App.setRoot("View/setupJogador1");
+        try {
+            telaMomento = "View/setupJogador1";
+            App.setRoot("View/setupJogador1");
+        } catch (Exception e) {
+            System.out.println("Erro ao trocar de tela" + e.getMessage());
+        }
+
     }
 
+    /**
+     * @throws IOException
+     */
     @FXML
-    void setupJogador2(ActionEvent event) throws IOException {
+    void setupJogador2() throws IOException {
+        jogadores.setJogadorDaVez(2);
         try {
-            jogadores.setJogadorDaVez(2);
             telaMomento = "View/setupJogador2";
             App.setRoot(telaMomento);
         } catch (Exception e) {
+            System.out.println("Erro ao trocar de tela" + e.getMessage());
         }
     }
 
+    /**
+     * @throws IOException
+     */
     @FXML
-    void iniciarJogo(ActionEvent event) throws IOException {
+    void iniciarJogo() throws IOException {
         jogadores.setJogadorDaVez(1);
         try {
             telaMomento = "View/Jogador1Jogar";
             App.setRoot(telaMomento);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Erro ao trocar de tela" + e.getMessage());
         }
 
     }
 
+    /**
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void moverFragata(MouseEvent event) throws IOException {
         if (event.getButton() == MouseButton.SECONDARY) {
@@ -615,11 +678,14 @@ public class MenuController implements Initializable {
                     mostrarMensagemError("Não é possivel mover\no fragata para está posição");
                 }
                 moverFragata = false;
-
             }
         }
     }
 
+    /**
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void moverSubmarino(MouseEvent event) throws IOException {
         if (event.getButton() == MouseButton.SECONDARY) {
@@ -649,6 +715,10 @@ public class MenuController implements Initializable {
         }
     }
 
+    /**
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void moverCorveta(MouseEvent event) throws IOException {
         if (event.getButton() == MouseButton.SECONDARY) {
@@ -679,6 +749,10 @@ public class MenuController implements Initializable {
 
     }
 
+    /**
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void moverDestroyer(MouseEvent event) throws IOException {
 
@@ -712,6 +786,10 @@ public class MenuController implements Initializable {
 
     }
 
+    /**
+     * @param e
+     * @throws IOException
+     */
     @FXML
     void clicado(MouseEvent e) throws IOException {
         if (moverCorveta)
@@ -724,10 +802,12 @@ public class MenuController implements Initializable {
             moverSubmarino(e);
     }
 
+    /**
+     * @param event
+     */
     @FXML
     void atacar(MouseEvent event) {
         if (verificador) {
-
             int linha = 0, coluna = 0;
             Node source = (Node) event.getSource();
             Quadrante quadrantes[][];
@@ -744,15 +824,18 @@ public class MenuController implements Initializable {
                 quadrantes = jogadores.getJogador1().getTabuleiro().getQuadrantes();
                 jDaVez = jogadores.getJogador2();
             }
+
             int index = (linha * 10) + coluna;
+
             PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
             pause.setOnFinished(e -> {
                 try {
                     App.setRoot(telaMomento);
                 } catch (IOException ee) {
-                    ee.printStackTrace();
+                    System.out.println("Erro ao trocar de tela" + ee.getMessage());
                 }
             });
+
             if (!quadrantes[linha][coluna].isAtacado()) {
                 quadrantes[linha][coluna].setAtacado(true);
                 ImageView imageView = (ImageView) tabuleiroAtacado.getChildren().get(index);
@@ -761,6 +844,7 @@ public class MenuController implements Initializable {
                     imageView.setImage(new Image(getClass().getResourceAsStream("/br/com/imd/imgs/explosao.jpeg")));
                     mensagem.setOpacity(1);
                     mensagem.setText("Você acertou o navio inimigo,\ncontinue atacando!");
+
                     if (jogadores.verificarVencedor()) {
                         telaMomento = "View/telaEncerramento";
                         vencedor = jDaVez;
