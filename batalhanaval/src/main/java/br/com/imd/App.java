@@ -19,6 +19,7 @@ public class App extends Application {
      * @param stage
      * @throws IOException
      */
+
     @Override
     public void start(Stage stage) throws IOException {
         try {
@@ -37,6 +38,7 @@ public class App extends Application {
      * @param fxml
      * @throws IOException
      */
+
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }

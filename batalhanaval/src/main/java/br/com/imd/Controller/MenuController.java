@@ -36,7 +36,7 @@ public class MenuController implements Initializable {
     private Boolean verificador = true, moverDestroyer = false, moverCorveta = false, moverFragata = false,
             moverSubmarino = false;
 
-    // FUNÇÃO MAIS IMPORTANTE, NÃO MEXER!
+    // Padrão Singleton
     /**
      * @return
      */
