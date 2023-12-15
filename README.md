@@ -24,3 +24,7 @@ Se um jogador atinge uma parte de um navio do oponente, ele continua atacando at
 Quando todas as partes de um navio são atingidas, ele é afundado.
 ### Vitória: 
 O jogo continua até que toda a frota de um jogador seja afundada. O primeiro jogador a afundar completamente a frota do oponente vence.
+
+## Requisitos:
+
+É necessário ter o JRE instalado na máquina.
